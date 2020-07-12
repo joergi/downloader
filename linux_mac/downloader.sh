@@ -11,9 +11,9 @@
 
 # VERSION=0.2.0
 # $1 = download Url (mandatory)
-# $2 = recent issue
-# $3 = first issue to download
-# $4 = last issue to download
+# $2 = recent issue (mandatory)
+# $3 = -f first issue to download
+# $4 = -l last issue to download
 
 if [[ -z $1 ]]; then
     echo "download url can not be empty"
