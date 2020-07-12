@@ -25,18 +25,16 @@ if [[ -z $2 ]]; then
     exit 1
 fi
 
-downloadUrl = $1
-recentIssue = $2
+downloadUrl=$1
+recentIssue=$2
 
 i=1
-
-echo "before-first-while";
 
 	while :
 	do
 		case "$3" in
 		-f) shift; i="$3";;
-		-l) shift; issues="$3";;
+		-l) shift; recentIssue="$3";;
 		--) shift; break;;
 		-*) usage "bad argument $3";;
 		*) break;;
@@ -44,11 +42,9 @@ echo "before-first-while";
 		shift
 	done
 
-echo "after-first-while";
-
 	while [ "$i" -le "$recentIssue" ]
 	do
-		printf -v page_url "$downloadUrl" "$i"
+		printf -v page_url $downloadUrl "$i"
 		pdf_url=$(curl -sf "$page_url" | grep c-link | sed 's/^.*href=\"//' | sed 's/\?.*$//')
 		wget -N "$pdf_url" -P "$OUTDIR"
 		i=$(( i+1 ))
