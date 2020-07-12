@@ -28,6 +28,7 @@ fi
 downloadUrl = $1
 recentIssue = $2
 
+i=1
 
 	while :
 	do
