@@ -30,7 +30,7 @@ recentIssue = $2
 
 i=1
 
-echo "before first while";
+echo "before-first-while";
 
 	while :
 	do
@@ -44,7 +44,7 @@ echo "before first while";
 		shift
 	done
 
-echo "after first while"
+echo "after-first-while";
 
 	while [ "$i" -le "$recentIssue" ]
 	do
