@@ -30,6 +30,8 @@ recentIssue = $2
 
 i=1
 
+echo "before first while";
+
 	while :
 	do
 		case "$3" in
@@ -41,6 +43,8 @@ i=1
 		esac
 		shift
 	done
+
+echo "after first while"
 
 	while [ "$i" -le "$recentIssue" ]
 	do
