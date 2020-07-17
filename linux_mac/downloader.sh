@@ -45,7 +45,7 @@ i=1
 
 	while [ "$i" -le "$recentIssue" ]
 	do
-		printf -v page_url $downloadUrl "$i"
+		printf -v page_url "$downloadUrl" "$i"
 		pdf_url=$(curl -sf "$page_url" | grep \"c-link\" | sed 's/^.*href=\"//' | sed 's/\?.*$//')
 		wget -N "$pdf_url" -P "$OUTDIR"
 		i=$(( i+1 ))
