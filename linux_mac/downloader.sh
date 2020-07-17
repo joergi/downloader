@@ -22,7 +22,7 @@ fi
 
 recentIssue=1
 
-if [[ ! -z $2 ]]; then
+if [[ -n $2 ]]; then
    recentIssue=$2
 fi
 
