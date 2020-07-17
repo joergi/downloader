@@ -11,7 +11,7 @@
 
 # VERSION=0.2.0
 # $1 = download Url (mandatory)
-# $2 = recent issue (mandatory)
+# $2 = recent issue (not mandatory, because of the special editions)
 # $3 = -f first issue to download
 # $4 = -l last issue to download
 
@@ -20,13 +20,14 @@ if [[ -z $1 ]]; then
     exit 1
 fi
 
-if [[ -z $2 ]]; then
-    echo "recent issue can not be empty"
-    exit 1
+recentIssue=1
+
+if [[ ! -z $2 ]]; then
+   recentIssue=$2
 fi
 
 downloadUrl=$1
-recentIssue=$2
+
 
 i=1
 
