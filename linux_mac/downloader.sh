@@ -47,6 +47,7 @@ i=1
 	do
 		printf -v page_url "$downloadUrl" "$i"
 		pdf_url=$(curl -sf "$page_url" | grep c-link | sed 's/^.*href=\"//' | sed 's/\?.*$//')
+		echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + $OUTDIR
 		wget -N $pdf_url -P "$OUTDIR"
 		i=$(( i+1 ))
 	done
