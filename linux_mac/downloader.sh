@@ -1,6 +1,6 @@
 #!/bin/bash
 # ------------------------------------------------------------------
-# [Author] joergi - 
+# [Author] joergi -
 #          This script is a generic download script for the:
 #          - MagPi Downloader (https://github.com/joergi/MagPiDownloader/)
 #          - HelloWorld Downloader (https://github.com/joergi/HelloWorldDownloader)
@@ -11,33 +11,41 @@
 
 # VERSION=0.2.0
 # $1 = download Url (mandatory)
-# $2 = recent issue (not mandatory, because of the special editions)
-# $3 = -f first issue to download
-# $4 = -l last issue to download
+# $2 = outputDir (mandatory)
+# $3 = recent issue (not mandatory, because of the special editions)
+# $4 = -f first issue to download not mandatory
+# $5 = -l last issue to download not mandatory
+
+# for special issues, at the moment the last line must be an empty line, else the last one is ignored
 
 if [[ -z $1 ]]; then
     echo "download url can not be empty"
     exit 1
 fi
 
+if [[ -z $2 ]]; then
+    echo "output url can not be empty"
+    exit 1
+fi
+
 recentIssue=1
 
-if [[ ! -z $2 ]]; then
-   recentIssue=$2
+if [[ ! -z $3 ]]; then
+   recentIssue=$3
 fi
 
 downloadUrl=$1
-
+outputDir=$2
 
 i=1
 
 	while :
 	do
-		case "$3" in
-		-f) shift; i="$3";;
-		-l) shift; recentIssue="$3";;
+		case "$4" in
+		-f) shift; i="$4";;
+		-l) shift; recentIssue="$4";;
 		--) shift; break;;
-		-*) usage "bad argument $3";;
+		-*) usage "bad argument $4";;
 		*) break;;
 		esac
 		shift
@@ -45,9 +53,9 @@ i=1
 
 	while [ "$i" -le "$recentIssue" ]
 	do
-		printf -v page_url $downloadUrl "$i"
-		pdf_url=`curl -sf $page_url | grep c-link | sed 's/^.*href=\"//' | sed 's/\?.*$//'`
-		wget -N $pdf_url -P $OUTDIR
+    printf -v page_url $downloadUrl "$i"
+		pdf_url=`curl -sf $page_url | grep "c-link\" download=" | sed 's/^.*href=\"//' | sed 's/\?.*$//'`
+		wget -N $pdf_url -P $outputDir
 		i=$(( i+1 ))
 	done
 
