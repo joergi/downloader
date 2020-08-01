@@ -15,10 +15,10 @@
 Param(
     [Parameter(Mandatory = $true,
         ValueFromPipeline = $true)]
-    [string]$url
-)
-
-Param(
+    [string]$url,
+    [Parameter(Mandatory = $true,
+        ValueFromPipeline = $true)]
+    [string]$outDir,
     [string]$r,
     [string]$f,
     [string]$l
@@ -26,8 +26,6 @@ Param(
 
 # control variables
 $i = 1
-$baseDir = (Split-Path -Path $PSScriptRoot -Parent)
-$issues = Get-Content "$baseDir\issues.txt" -First 1
 $web = New-Object system.net.webclient
 $errorCount = 0
 
@@ -47,7 +45,7 @@ do {
     $fileReponse = ((Invoke-WebRequest -UseBasicParsing "$url$tempCounter/pdf").Links | Where-Object { $_.href -like "http*" } | Where-Object class -eq c-link)
     if ($fileReponse) {
         try {
-            $web.DownloadFile($fileReponse.href, "$baseDir\issues\" + $fileReponse.download)
+            $web.DownloadFile($fileReponse.href, "$outDir" + $fileReponse.download)
             Write-Verbose -Message "Downloaded from  $fileReponse.href"
         }
         Catch {
