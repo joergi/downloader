@@ -37,6 +37,8 @@ fi
 downloadUrl=$1
 outputDir=$2
 
+siteUrl="$(echo $downloadUrl | sed 's/\(https:\/\/[^\/]*\)\/.*$/\1/')"
+
 i=1
 
 	while :
@@ -54,7 +56,7 @@ i=1
 	while [ "$i" -le "$recentIssue" ]
 	do
     printf -v page_url $downloadUrl "$i"
-		pdf_url=`curl -sf $page_url | grep "c-link\" download=" | sed 's/^.*href=\"//' | sed 's/\?.*$//'`
+		pdf_url=`curl -sf $page_url | grep "c-link\"" | sed 's/^.*href=\"//' | sed 's/\(\?.*\)\?">.*$//' | sed "s#^\(/.*\)#$siteUrl\1#"`
 		wget -N $pdf_url -P $outputDir
 		i=$(( i+1 ))
 	done
