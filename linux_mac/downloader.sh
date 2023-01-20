@@ -60,10 +60,10 @@ i=1
 # c-link download is only for helloworld mag
 		pdf_url=`curl -sf $page_url | grep "\"c-link\" download=" | sed 's/^.*href=\"//' | sed 's/\?.*//' | sed "s#^\(/.*\)#$siteUrl\1#"`
 
-	#	if [[ $pdf_url == "" ]]; then
-# Magpi, Wireframe + Hackspace
-   #    pdf_url=`curl -sf $page_url | grep "\"c-link\"" | sed 's/^.*href=\"//' | sed 's/[>"].*//' | sed "s#^\(/.*\)#$siteUrl\1#"`
-   # fi
+		if [[ $pdf_url == "" ]]; then
+    # Magpi, Wireframe + Hackspace
+       pdf_url=`curl -sf $page_url | grep "\"c-link\"" | sed 's/^.*href=\"//' | sed 's/[>"].*//' | sed "s#^\(/.*\)#$siteUrl\1#"`
+    fi
 
 
 		wget -N $pdf_url -P $outputDir
