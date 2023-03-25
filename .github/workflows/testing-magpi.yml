@@ -27,22 +27,26 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3.4.0
+
       - name: make folder for books
         run: mkdir books
         shell: bash
+
       - name: Download Books MagPi windows
         id: MagPiBooksWin
         shell: pwsh
         run: ./windows/downloader.ps1 -downloadUrl "https://magpi.raspberrypi.com/books/projects-5/pdf" -outputDir "books"
-      - name: Download Books HelloWorld windows
+
       - name: "Check file existence Windows special"
         id: check_files
         uses: andstor/file-existence-action@v2.0.0
         with:
           files: "books/Pi-Projects5.pdf"
           fail: true
+
       - name: lslah issues
         run: Get-ChildItem –path D:\a\Downloader\books
+
       - name: File exists
         if: steps.check_files.outputs.files_exists == 'false'
         run: exit 1
