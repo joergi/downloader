@@ -37,15 +37,15 @@ jobs:
         shell: pwsh
         run: ./windows/downloader.ps1 -downloadUrl "https://hackspace.raspberrypi.com/books/meadiaplayer/pdf" -outputDir "books"
 
+      - name: lslah books
+        run: Get-ChildItem –path D:\a\downloader\downloader\books
+
       - name: "Check file existence Windows special"
         id: check_files
         uses: andstor/file-existence-action@v2.0.0
         with:
           files: "books/meadiaplayer.pdf"
           fail: true
-
-      - name: lslah books
-        run: Get-ChildItem –path D:\a\downloader\downloader\books
 
       - name: File exists
         if: steps.check_files.outputs.files_exists == 'false'
