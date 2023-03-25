@@ -44,8 +44,8 @@ jobs:
           files: "books/Pi-Projects5.pdf"
           fail: true
 
-      - name: lslah issues
-        run: Get-ChildItem –path D:\a\Downloader\books
+      - name: lslah books
+        run: Get-ChildItem –path D:\a
 
       - name: File exists
         if: steps.check_files.outputs.files_exists == 'false'
