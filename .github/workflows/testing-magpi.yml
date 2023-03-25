@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3.4.0
       - name: make folder for books
-      - run: mkdir books
+        run: mkdir books
         shell: bash
       - name: Download Books MagPi windows
         id: MagPiBooksWin
