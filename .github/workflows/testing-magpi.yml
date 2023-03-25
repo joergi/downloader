@@ -45,7 +45,7 @@ jobs:
           fail: true
 
       - name: lslah books
-        run: Get-ChildItem –path D:\a
+        run: Get-ChildItem –path D:\a\downloader\
 
       - name: File exists
         if: steps.check_files.outputs.files_exists == 'false'
