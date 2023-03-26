@@ -51,41 +51,54 @@ jobs:
         if: steps.check_files.outputs.files_exists == 'false'
         run: exit 1
 
-#  special-bash-linux:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3.4.0
-#      - name: Download Special Issues linux
-#        id: specialIssues
-#        run: bash ./linux_mac/magpi-special-issue-downloader.sh
-#
-#      - name: "Check file existence Linux special issues"
-#        id: check_files
-#        uses: andstor/file-existence-action@v2.0.0
-#        with:
-#          files: "special_issues/MagPiSE1.pdf, special_issues/Projects_Book_v3.pdf, special_issues/Retro_Gaming.pdf, special_issues/C &amp; GUI Programming 2nd Edition.pdf"
-#          fail: true
-#      - name: lslah
-#        run: ls -lah special_issues/
-#      - name: File exists
-#        if: steps.check_files.outputs.files_exists == 'false'
-#        run: exit 1
-#  special-bash-macos:
-#    runs-on: macos-latest
-#    steps:
-#      - uses: actions/checkout@v3.4.0
-#      - name: Download Special Issues Mac
-#        id: specialIssues
-#        run: bash ./linux_mac/magpi-special-issue-downloader.sh
-#      # check if files are existing
-#      - name: "Check file existence MacOs special issues"
-#        id: check_files
-#        uses: andstor/file-existence-action@v2.0.0
-#        with:
-#          files: "special_issues/MagPiSE1.pdf, special_issues/Projects_Book_v3.pdf, special_issues/Retro_Gaming.pdf, special_issues/C &amp; GUI Programming 2nd Edition.pdf"
-#          fail: true
-#      - name: lslah
-#        run: ls -lah special_issues/
-#      - name: File exists
-#        if: steps.check_files.outputs.files_exists == 'false'
-#        run: exit 1
+  books-bash-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.4.0
+
+      - name: make folder for books
+        run: mkdir books
+
+      - name: Download books linux
+        id: bookIssues
+        run: bash ./linux_mac/downloader.sh https://magpi.raspberrypi.com/books/projects-5/pd books
+
+      - name: lslah
+        run: ls -lah books/
+
+      - name: "Check file existence Linux special issues"
+        id: check_files
+        uses: andstor/file-existence-action@v2.0.0
+        with:
+          files: "books/Pi-Projects5.pdf"
+          fail: true
+
+      - name: File exists
+        if: steps.check_files.outputs.files_exists == 'false'
+        run: exit 1
+
+  special-bash-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3.4.0
+
+      - name: make folder for books
+        run: mkdir books
+
+      - name: Download books macos
+        id: bookIssuesMac
+        run: bash ./linux_mac/downloader.sh https://magpi.raspberrypi.com/books/projects-5/pd books
+
+      - name: lslah
+        run: ls -lah books/
+
+      - name: "Check file existence mac special issues"
+        id: check_files
+        uses: andstor/file-existence-action@v2.0.0
+        with:
+          files: "books/Pi-Projects5.pdf"
+          fail: true
+
+      - name: File exists
+        if: steps.check_files.outputs.files_exists == 'false'
+        run: exit 1
