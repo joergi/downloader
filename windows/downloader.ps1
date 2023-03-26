@@ -32,12 +32,8 @@ for ($i = $firstIssue; $i -le $recentIssue; $i++) {
     $pdfUrl = $pdfUrl -replace '\?.*',''
     $pdfUrl = $pdfUrl -replace '^/', "$siteUrl/"
 
-
-
     $pdfFileName = Split-Path $pdfUrl -Leaf
     $pdfFilePath = Join-Path $outputDir $pdfFileName
-
-    Write-Output "xxxx" + $pdfUrl
 
     Invoke-WebRequest -Uri $pdfUrl -OutFile $pdfFilePath
 
