@@ -61,7 +61,7 @@ jobs:
 
       - name: Download books linux
         id: bookIssues
-        run: bash ./linux_mac/downloader.sh https://magpi.raspberrypi.com/books/projects-5/pd books
+        run: bash ./linux_mac/downloader.sh https://magpi.raspberrypi.com/books/projects-5/pdf books
 
       - name: lslah
         run: ls -lah books/
@@ -87,7 +87,7 @@ jobs:
 
       - name: Download books macos
         id: bookIssuesMac
-        run: bash ./linux_mac/downloader.sh https://magpi.raspberrypi.com/books/projects-5/pd books
+        run: bash ./linux_mac/downloader.sh https://magpi.raspberrypi.com/books/projects-5/pdf books
 
       - name: lslah
         run: ls -lah books/
