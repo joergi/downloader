@@ -13,7 +13,7 @@
 #   Wireframe books (Mac/Linux/Win)
 
 
-name: Testing MagPi
+name: Testing MagPi Regular
 
 on:
   push:
