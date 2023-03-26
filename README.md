@@ -1,6 +1,10 @@
 # downloader
 
-Basic downloader
+Downloader for the following magazines:
+
+| MagPi  | Wireframe | Hackspace | HelloWorld |
+|--------------|-----------|------------|------------|
+| ![Testing MagPi](https://github.com/joergi/downloader/workflows/Testing%20MagPi/badge.svg)     | ![Testing Wireframe](https://github.com/joergi/downloader/workflows/Testing%20Wireframe/badge.svg) | ![Testing HackSpace](https://github.com/joergi/downloader/workflows/Testing%20HackSpace/badge.svg) | ![Testing HelloWorld](https://github.com/joergi/downloader/workflows/Testing%20HelloWorld/badge.svg) |
 
 
 ## THIS SCRIPT CAN NOT BE STARTED  ALONE!!
