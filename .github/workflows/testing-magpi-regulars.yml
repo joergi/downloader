@@ -58,11 +58,12 @@ jobs:
 
       - name: curl remote file output
         id: read_recent
-        run: ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/MagPiDownloader/main/sources-for-download/regular-issues.txt)
+        run: | 
+          ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/MagPiDownloader/main/sources-for-download/regular-issues.txt) >> $GITHUB_ENV
+          
 
       - run: |
-          echo "ISSUE_NUMBER=${{ steps.read_recent.ISSUE_NUMBER }}" >> $GITHUB_ENV
-          echo "ISSUE_MINUS_ONE=$((${{ steps.read_recent.ISSUE_NUMBER }}-1))" >> $GITHUB_ENV
+          echo "ISSUE_MINUS_ONE=$((${{ env.ISSUE_NUMBER }}-1))" >> $GITHUB_ENV
         shell: bash
 
       - name: print out vars
