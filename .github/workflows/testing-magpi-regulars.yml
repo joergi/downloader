@@ -76,11 +76,15 @@ jobs:
 
       - name: Download regular linux
         id: regularIssuesFirstLast
-        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular 120 -f 50 -l 52
+        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -f 50 -l 52
 
       - name: Download regular linux
         id: bookIssuesLast
-        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular 120 -l 2
+        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -l 2
+
+      - name: Download regular linux
+        id: bookIssuesLast
+        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -f ${{ env.ISSUE_MINUS_ONE }}
 
       - name: lslah
         run: ls -lah regular/
@@ -119,7 +123,7 @@ jobs:
         id: check_files
         uses: andstor/file-existence-action@v2.0.0
         with:
-          files: "regular/MagPi01.pdf, regular/MagPi02.pdf, regular/MagPi50.pdf, regular/MagPi51.pdf, regular/MagPi52.pdf"
+          files: "regular/MagPi01.pdf, regular/MagPi02.pdf, regular/MagPi50.pdf, regular/MagPi51.pdf, regular/MagPi52.pdf, regular/MagPi${{ env.ISSUE_MINUS_ONE }}.pdf, regular/MagPi${{ env.ISSUE_NUMBER }}.pdf"
           fail: true
 
       - name: File exists
