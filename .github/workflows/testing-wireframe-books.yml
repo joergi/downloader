@@ -3,7 +3,7 @@
 #   The MagPi regular issues (Mac/Linux)
 #   The Magpi books / special issues (Mac/Linux/Win)
 # Hello World
-#   Hello World regular issues  (Mac/Linux)
+#   Hello World regular issues  (Mac/Linux)download the correct files
 #   Hello World books (Mac/Linux/Win)
 # HackSpace Magazine
 #   Hackspace Magazine regular issues
@@ -13,7 +13,7 @@
 #   Wireframe books (Mac/Linux/Win)
 
 
-name: Testing Wireframe
+name: Testing Wireframe Books
 
 on:
   push:

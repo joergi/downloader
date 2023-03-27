@@ -13,7 +13,7 @@
 #   Wireframe books (Mac/Linux/Win)
 
 
-name: Testing Wireframe
+name: Testing Wireframe Regulars
 
 on:
   push:
