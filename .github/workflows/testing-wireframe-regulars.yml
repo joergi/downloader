@@ -1,0 +1,149 @@
+# this will test the downloader script for Wireframe which is called by:
+# The MagPi
+#   The MagPi regular issues (Mac/Linux)
+#   The Magpi books / special issues (Mac/Linux/Win)
+# Hello World
+#   Hello World regular issues  (Mac/Linux)
+#   Hello World books (Mac/Linux/Win)
+# HackSpace Magazine
+#   Hackspace Magazine regular issues
+#   Hackspace Magazine books (Mac/Linux/Win)
+# Wireframe
+#   Wireframe regular issues (Mac/Linux)
+#   Wireframe books (Mac/Linux/Win)
+
+
+name: Testing Wireframe
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+#  books-powershell:
+#    runs-on: windows-latest
+#    steps:
+#      - uses: actions/checkout@v3.4.0
+#
+#      - name: make folder for books
+#        run: mkdir books
+#        shell: bash
+#
+#      - name: Download Books Wireframe windows
+#        id: WireframeBooksWin
+#        shell: pwsh
+#        run: ./windows/downloader.ps1 -downloadUrl "https://wireframe.raspberrypi.com/books/computers-that-made-britain/pdf" -outputDir "books"
+#
+#      - name: lslah books
+#        run: Get-ChildItem –path D:\a\downloader\downloader\books
+#
+#      - name: "Check file existence Windows special"
+#        id: check_files
+#        uses: andstor/file-existence-action@v2.0.0
+#        with:
+#          files: "books/Computers%20that%20made%20Britain%20v1.pdf"
+#          fail: true
+#
+#      - name: File exists
+#        if: steps.check_files.outputs.files_exists == 'false'
+#        run: exit 1
+
+
+  regular-bash-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.4.0
+
+      - name: curl remote file output
+        id: read_recent
+        run: |
+          echo "ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/WireframeDownloader/main/regular-issues.txt)" >> $GITHUB_ENV
+
+      - run: |
+          echo "ISSUE_MINUS_ONE=$((${{ env.ISSUE_NUMBER }}-1))" >> $GITHUB_ENV
+        shell: bash
+
+      - name: print out vars
+        id: printOutVars
+        shell: pwsh
+        run: env
+
+      - name: make folder for regular
+        run: mkdir regular
+
+      - name: Download regular linux with first and last
+        id: regularIssuesFirstLast
+        run: bash ./linux_mac/downloader.sh https://wireframe.raspberrypi.com/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -f 50 -l 52
+
+      - name: Download regular linux with end limit
+        id: regularIssuesLast
+        run: bash ./linux_mac/downloader.sh https://wireframe.raspberrypi.com/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -l 2
+
+      - name: Download regular linux with start
+        id: regularIssuesFirst
+        run: bash ./linux_mac/downloader.sh https://wireframe.raspberrypi.com/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -f ${{ env.ISSUE_MINUS_ONE }}
+
+      - name: lslah
+        run: ls -lah regular/
+
+      - name: "Check file existence Linux special issues"
+        id: check_files
+        uses: andstor/file-existence-action@v2.0.0
+        with:
+          files: "regular/Wireframe01.pdf, regular/Wireframe02.pdf, regular/Wireframe50.pdf, regular/Wireframe51.pdf, regular/Wireframe52.pdf, regular/Wireframe${{ env.ISSUE_MINUS_ONE }}.pdf, regular/Wireframe${{ env.ISSUE_NUMBER }}.pdf"
+          fail: true
+
+      - name: File exists
+        if: steps.check_files.outputs.files_exists == 'false'
+        run: exit 1
+
+  regular-bash-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3.4.0
+
+      - name: curl remote file output
+        id: read_recent
+        run: |
+          echo "ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/WireframeDownloader/main/regular-issues.txt)" >> $GITHUB_ENV
+
+      - run: |
+          echo "ISSUE_MINUS_ONE=$((${{ env.ISSUE_NUMBER }}-1))" >> $GITHUB_ENV
+        shell: bash
+
+      - name: print out vars
+        id: printOutVars
+        shell: pwsh
+        run: env
+
+      - name: make folder for regular
+        run: mkdir regular
+
+      - name: Download regular macos with first and last
+        id: regularIssuesFirstLast
+        run: bash ./linux_mac/downloader.sh https://wireframe.raspberrypi.com/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -f 10 -l 12
+
+      - name: Download regular macos with end limit
+        id: regularIssuesLast
+        run: bash ./linux_mac/downloader.sh https://wireframe.raspberrypi.com/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -l 2
+
+      - name: Download regular macos with start
+        id: regularIssuesFirst
+        run: bash ./linux_mac/downloader.sh https://wireframe.raspberrypi.com/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -f ${{ env.ISSUE_MINUS_ONE }}
+
+      - name: lslah
+        run: ls -lah regular/
+
+      - name: "Check file existence macos regular"
+        id: check_files
+        uses: andstor/file-existence-action@v2.0.0
+        with:
+          files: "regular/MagPi01.pdf, regular/MagPi02.pdf, regular/MagPi50.pdf, regular/MagPi51.pdf, regular/MagPi52.pdf, regular/MagPi${{ env.ISSUE_MINUS_ONE }}.pdf, regular/MagPi${{ env.ISSUE_NUMBER }}.pdf"
+          fail: true
+
+      - name: File exists
+        if: steps.check_files.outputs.files_exists == 'false'
+        run: exit 1
