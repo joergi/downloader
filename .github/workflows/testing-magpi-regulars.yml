@@ -55,13 +55,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.4.0
+      - uses: pCYSl5EDgo/cat@master
+        id: read_recent
+        with:
+          path: https://raw.githubusercontent.com/joergi/MagPiDownloader/main/sources-for-download/regular-issues.txt
+      - run: |
+          echo "ISSUE_NUMBER=${{ steps.read_recent.outputs.text }}" >> $GITHUB_ENV
+          echo "ISSUE_MINUS_ONE=$((${{ steps.read_recent.outputs.text }}-1))" >> $GITHUB_ENV
+        shell: bash
+
+      - name: print out vars
+        id: printOutVars
+        shell: pwsh
+        run: env
+
 
       - name: make folder for regular
         run: mkdir regular
 
-      - name: Download books linux
+      - name: Download regular linux
         id: bookIssues
-        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular 120 -f 2 -l 4
+        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular 120 -f 50 -l 52
+
+      - name: Download regular linux
+        id: bookIssues
+        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular 120 -l 2
 
       - name: lslah
         run: ls -lah regular/
@@ -70,7 +88,7 @@ jobs:
         id: check_files
         uses: andstor/file-existence-action@v2.0.0
         with:
-          files: "regular/MagPi02.pdf, regular/MagPi03.pdf, regular/MagPi04.pdf"
+          files: "regular/MagPi01.pdf, regular/MagPi02.pdf, regular/MagPi50.pdf, regular/MagPi51.pdf, regular/MagPi52.pdf"
           fail: true
 
       - name: File exists
@@ -85,9 +103,13 @@ jobs:
       - name: make folder for regular
         run: mkdir regular
 
-      - name: Download regular macos
-        id: regularIssuesMac
-        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular 120 -f 2 -l 4
+      - name: Download regular linux
+        id: bookIssues
+        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular 120 -f 50 -l 52
+
+      - name: Download regular linux
+        id: bookIssues
+        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular 120 -l 2
 
       - name: lslah
         run: ls -lah regular/
@@ -96,7 +118,7 @@ jobs:
         id: check_files
         uses: andstor/file-existence-action@v2.0.0
         with:
-          files: "regular/MagPi02.pdf, regular/MagPi03.pdf, regular/MagPi04.pdf"
+          files: "regular/MagPi01.pdf, regular/MagPi02.pdf, regular/MagPi50.pdf, regular/MagPi51.pdf, regular/MagPi52.pdf"
           fail: true
 
       - name: File exists
