@@ -63,7 +63,7 @@ jobs:
           
 
       - run: |
-          echo "ISSUE_MINUS_ONE=$((${{ env.ISSUE_NUMBER }}-1))" >> $GITHUB_ENV
+          echo "ISSUE_MINUS_ONE=$((${{ env.ISSUE_NUMBER.text }}-1))" >> $GITHUB_ENV
         shell: bash
 
       - name: print out vars
