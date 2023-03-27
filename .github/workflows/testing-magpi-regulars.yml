@@ -74,11 +74,11 @@ jobs:
         run: mkdir regular
 
       - name: Download regular linux
-        id: bookIssues
+        id: regularIssuesFirstLast
         run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular 120 -f 50 -l 52
 
       - name: Download regular linux
-        id: bookIssues
+        id: bookIssuesLast
         run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular 120 -l 2
 
       - name: lslah
@@ -103,12 +103,12 @@ jobs:
       - name: make folder for regular
         run: mkdir regular
 
-      - name: Download regular linux
-        id: bookIssues
+      - name: Download regular mac
+        id: regularIssuesFirstLast
         run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular 120 -f 50 -l 52
 
-      - name: Download regular linux
-        id: bookIssues
+      - name: Download regular mac
+        id: bookIssuesLast
         run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular 120 -l 2
 
       - name: lslah
