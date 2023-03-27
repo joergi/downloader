@@ -1,4 +1,4 @@
-# this will test the downloader script for MagPI which is called by:
+# this will test the downloader script for HelloWorld which is called by:
 # The MagPi
 #   The MagPi regular issues (Mac/Linux)
 #   The Magpi books / special issues (Mac/Linux/Win)
@@ -13,7 +13,7 @@
 #   Wireframe books (Mac/Linux/Win)
 
 
-name: Testing MagPi Regular
+name: Testing HelloWorld Regulars
 
 on:
   push:
@@ -32,24 +32,25 @@ jobs:
 #        run: mkdir books
 #        shell: bash
 #
-#      - name: Download Books MagPi windows
-#        id: MagPiBooksWin
+#      - name: Download Books Hello World windows
+#        id: HelloWorldBooksWin
 #        shell: pwsh
-#        run: ./windows/downloader.ps1 -downloadUrl "https://magpi.raspberrypi.com/books/projects-5/pdf" -outputDir "books"
+#        run: ./windows/downloader.ps1 -downloadUrl "https://helloworld.raspberrypi.org/books/big_book_of_pedagogy/pdf" -outputDir "books"
+#
+#      - name: lslah books
+#        run: Get-ChildItem –path D:\a\downloader\downloader\books
 #
 #      - name: "Check file existence Windows special"
 #        id: check_files
 #        uses: andstor/file-existence-action@v2.0.0
 #        with:
-#          files: "books/Pi-Projects5.pdf"
+#          files: "books/Hello_World_The_Big_Book_of_Pedagogy.pdf"
 #          fail: true
-#
-#      - name: lslah books
-#        run: Get-ChildItem –path D:\a\downloader\downloader\books
 #
 #      - name: File exists
 #        if: steps.check_files.outputs.files_exists == 'false'
 #        run: exit 1
+
 
   regular-bash-linux:
     runs-on: ubuntu-latest
@@ -59,7 +60,7 @@ jobs:
       - name: curl remote file output
         id: read_recent
         run: |
-          echo "ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/MagPiDownloader/main/sources-for-download/regular-issues.txt)" >> $GITHUB_ENV
+          echo "ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/HelloWorldDownloader/main/regular-issues.txt)" >> $GITHUB_ENV
 
       - run: |
           echo "ISSUE_MINUS_ONE=$((${{ env.ISSUE_NUMBER }}-1))" >> $GITHUB_ENV
@@ -75,15 +76,15 @@ jobs:
 
       - name: Download regular linux with first and last
         id: regularIssuesFirstLast
-        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -f 50 -l 52
+        run: bash ./linux_mac//downloader.sh https://helloworld.raspberrypi.org/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -f 4 -l 5
 
       - name: Download regular linux with end limit
         id: regularIssuesLast
-        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -l 2
+        run: bash ./linux_mac//downloader.sh https://helloworld.raspberrypi.org/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -l 2
 
       - name: Download regular linux with start
         id: regularIssuesFirst
-        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -f ${{ env.ISSUE_MINUS_ONE }}
+        run: bash ./linux_mac//downloader.sh https://helloworld.raspberrypi.org/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -f ${{ env.ISSUE_MINUS_ONE }}
 
       - name: lslah
         run: ls -lah regular/
@@ -92,7 +93,7 @@ jobs:
         id: check_files
         uses: andstor/file-existence-action@v2.0.0
         with:
-          files: "regular/MagPi01.pdf, regular/MagPi02.pdf, regular/MagPi50.pdf, regular/MagPi51.pdf, regular/MagPi52.pdf, regular/MagPi${{ env.ISSUE_MINUS_ONE }}.pdf, regular/MagPi${{ env.ISSUE_NUMBER }}.pdf"
+          files: "regular/HelloWorld01.pdf, regular/HelloWorld02.pdf, regular/HelloWorld04.pdf, regular/HelloWorld05.pdf,  regular/HelloWorld${{ env.ISSUE_MINUS_ONE }}.pdf, regular/HelloWorld${{ env.ISSUE_NUMBER }}.pdf"
           fail: true
 
       - name: File exists
@@ -107,7 +108,7 @@ jobs:
       - name: curl remote file output
         id: read_recent
         run: |
-          echo "ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/MagPiDownloader/main/sources-for-download/regular-issues.txt)" >> $GITHUB_ENV
+          echo "ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/HelloWorldDownloader/main/regular-issues.txt)" >> $GITHUB_ENV
 
       - run: |
           echo "ISSUE_MINUS_ONE=$((${{ env.ISSUE_NUMBER }}-1))" >> $GITHUB_ENV
@@ -123,15 +124,15 @@ jobs:
 
       - name: Download regular macos with first and last
         id: regularIssuesFirstLast
-        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -f 50 -l 52
+        run: bash ./linux_mac//downloader.sh https://helloworld.raspberrypi.org/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -f 4 -l 5
 
       - name: Download regular macos with end limit
         id: regularIssuesLast
-        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -l 2
+        run: bash ./linux_mac//downloader.sh https://helloworld.raspberrypi.org/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -l 2
 
       - name: Download regular macos with start
         id: regularIssuesFirst
-        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -f ${{ env.ISSUE_MINUS_ONE }}
+        run: bash ./linux_mac//downloader.sh https://helloworld.raspberrypi.org/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} -f ${{ env.ISSUE_MINUS_ONE }}
 
       - name: lslah
         run: ls -lah regular/
@@ -140,7 +141,7 @@ jobs:
         id: check_files
         uses: andstor/file-existence-action@v2.0.0
         with:
-          files: "regular/MagPi01.pdf, regular/MagPi02.pdf, regular/MagPi50.pdf, regular/MagPi51.pdf, regular/MagPi52.pdf, regular/MagPi${{ env.ISSUE_MINUS_ONE }}.pdf, regular/MagPi${{ env.ISSUE_NUMBER }}.pdf"
+          files: "regular/HelloWorld01.pdf, regular/HelloWorld02.pdf, regular/HelloWorld04.pdf, regular/HelloWorld05.pdf,  regular/HelloWorld${{ env.ISSUE_MINUS_ONE }}.pdf, regular/HelloWorld${{ env.ISSUE_NUMBER }}.pdf"
           fail: true
 
       - name: File exists

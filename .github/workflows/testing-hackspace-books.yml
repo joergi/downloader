@@ -4,7 +4,7 @@
 #   The Magpi books / special issues (Mac/Linux/Win)
 # Hello World
 #   Hello World regular issues  (Mac/Linux)
-#   Hello World books (Mac/Linux/Win)
+#   Hello World books (Mac/Linux/Win)Books
 # HackSpace Magazine
 #   Hackspace Magazine regular issues
 #   Hackspace Magazine books (Mac/Linux/Win)
@@ -13,7 +13,7 @@
 #   Wireframe books (Mac/Linux/Win)
 
 
-name: Testing HackSpace
+name: Testing HackSpace Books
 
 on:
   push:
