@@ -93,7 +93,7 @@ jobs:
         id: check_files
         uses: andstor/file-existence-action@v2.0.0
         with:
-          files: "regular/HackSpaceMag01.pdf, regular/HackSpaceMag02.pdf, regular/HS50.pdf,regular/HS51.pdf,regular/HS52.pdf, regular/HS#${{ env.ISSUE_MINUS_ONE }}_Digital.pdf, regular/HS#${{ env.ISSUE_NUMBER }}_Digital.pdf"
+          files: "regular/HackSpaceMag01.pdf, regular/HackSpaceMag02.pdf, regular/HS50_Digital.pdf,regular/HS51_Digital.pdf,regular/HS52_Digital.pdf, regular/HS#${{ env.ISSUE_MINUS_ONE }}_Digital.pdf, regular/HS#${{ env.ISSUE_NUMBER }}_Digital.pdf"
           fail: true
 
       - name: File exists
@@ -141,7 +141,7 @@ jobs:
         id: check_files
         uses: andstor/file-existence-action@v2.0.0
         with:
-          files: "regular/HackSpaceMag01.pdf, regular/HackSpaceMag02.pdf, regular/HS50.pdf,regular/HS51.pdf,regular/HS52.pdf, regular/HS#${{ env.ISSUE_MINUS_ONE }}_Digital.pdf, regular/HS#${{ env.ISSUE_NUMBER }}_Digital.pdf"
+          files: "regular/HackSpaceMag01.pdf, regular/HackSpaceMag02.pdf, regular/HS50_Digital.pdf, regular/HS51_Digital.pdf, regular/HS52_Digital.pdf, regular/HS#${{ env.ISSUE_MINUS_ONE }}_Digital.pdf, regular/HS#${{ env.ISSUE_NUMBER }}_Digital.pdf"
           fail: true
 
       - name: File exists
