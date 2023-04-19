@@ -1,4 +1,7 @@
 #!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
 # ------------------------------------------------------------------
 # [Author] joergi -
 #          This script is a generic download script for the:
