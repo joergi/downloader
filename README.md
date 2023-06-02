@@ -11,7 +11,7 @@ Downloader for the following magazines:
 It's a generic script, and it is/will be used for the downloader scripts:
 
 The MagPi magazine: https://github.com/joergi/MagPiDownloader     
-Wireframe magazine: https://github.com/joergi/WireframeDownloader  
+~~Wireframe magazine: https://github.com/joergi/WireframeDownloader~~ it seems that Wireframe is not anymore at the moment
 Hackspace magazine: https://github.com/joergi/HackspaceMagazineDownloader  
 Hello World Magazine: https://github.com/joergi/HelloWorldDownloader  
 
