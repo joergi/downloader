@@ -1,5 +1,7 @@
 #!/bin/bash
-set -euo pipefail
+set -o errexit
+#set -o pipefail ## it's failing for line 82 + 86
+set -o nounset
 IFS=$'\n\t'
 
 # ------------------------------------------------------------------
@@ -32,8 +34,6 @@ if [[ -z $2 ]]; then
     exit 1
 fi
 
-
-
 recentIssue=1
 
 if [[ ! -z $3 ]]; then
@@ -42,19 +42,17 @@ fi
 
 first=-1
 last=-1
-echo "first: $first"
-echo "last: $last"
 
- if [ $# -ge 5 ] && [ ! -z $4 ]; then
-  if [ $4 == "-f" ]; then
+ if [ $# -ge 5 ] && [ -n "$4" ]; then
+  if [ "$4" == "-f" ]; then
     first=$5
-  elif [ $4 == "-l" ]; then
+  elif [ "$4" == "-l" ]; then
     last=$5
 
   fi
  fi
 
- if [ $# -ge 7 ] &&[ ! -z $6 ]; then
+ if [ $# -ge 7 ] &&[ -n "$6" ]; then
    if [ "$6" == "-l" ]; then
      last=$7
    fi
@@ -62,13 +60,10 @@ echo "last: $last"
    last=$recentIssue
  fi
 
-echo "first: $first"
-echo "last: $last"
-
 downloadUrl=$1
 outputDir=$2
 
-siteUrl="$(echo $downloadUrl | sed 's/\(https:\/\/[^\/]*\)\/.*$/\1/')"
+siteUrl="$(echo "$downloadUrl" | sed 's/\(https:\/\/[^\/]*\)\/.*$/\1/')"
 
 i=1
 if [ "$first" != -1 ]; then
@@ -78,39 +73,21 @@ if [ "last" != -1 ]; then
   recentIssue=$last
 fi
 
-
-#while :
-#do
-#    if [ "$#" -lt 4 ]; then
-#        usage "Insufficient number of parameters."
-#    fi
-#
-#    case "$4" in
-#    -f) shift; i="$4";;
-#    -l) shift; recentIssue="$4";;
-#    --) shift; break;;
-#    -*) usage "bad argument $4";;
-#    *) break;;
-#    esac
-#    shift
-#done
-
-
 	while [ "$i" -le "$last" ]
-	echo "in while - i: $i and last $last"
 	do
+    # shellcheck disable=SC2059
     printf -v page_url $downloadUrl "$i"
 
-# c-link download is only for helloworld mag
-		pdf_url=`curl -sf $page_url | grep "\"c-link\" download=" | sed 's/^.*href=\"//' | sed 's/\?.*//' | sed "s#^\(/.*\)#$siteUrl\1#"`
+    # c-link download is only for helloworld mag
+		pdf_url=$(curl -sf "$page_url" | grep "\"c-link\" download=" | sed 's/^.*href=\"//' | sed 's/\?.*//' | sed "s#^\(/.*\)#$siteUrl\1#")
 
 		if [[ $pdf_url == "" ]]; then
-    # Magpi, Wireframe + Hackspace
-       pdf_url=`curl -sf $page_url | grep "\"c-link\"" | sed 's/^.*href=\"//' | sed 's/[>"].*//' | sed "s#^\(/.*\)#$siteUrl\1#"`
+      # Magpi, Wireframe + Hackspace
+       pdf_url=$(curl -sf "$page_url" | grep "\"c-link\"" | sed 's/^.*href=\"//' | sed 's/[>"].*//' | sed "s#^\(/.*\)#$siteUrl\1#")
+
     fi
 
-
-		wget -N $pdf_url -P $outputDir
+		wget -N "$pdf_url" -P "$outputDir"
 		i=$(( i+1 ))
 	done
 
