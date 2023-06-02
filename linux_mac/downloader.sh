@@ -40,6 +40,8 @@ if [ $# -ge 3 ] && [ -n "$3" ]; then
    recentIssue=$3
 fi
 
+echo "recentIssue $recentIssue"
+
 first=-1
 last=-1
 
@@ -52,13 +54,23 @@ last=-1
   fi
  fi
 
+echo "first $first"
+echo "last $last"
+
+
  if [ $# -ge 7 ] &&[ -n "$6" ]; then
    if [ "$6" == "-l" ]; then
+     echo "innen 1"
      last=$7
+   else
+     echo "innen 2"
+    last=$recentIssue
    fi
- else
-   last=$recentIssue
  fi
+
+echo "first $first"
+echo "last $last"
+
 
 downloadUrl=$1
 outputDir=$2
@@ -69,13 +81,18 @@ i=1
 if [ "$first" != -1 ]; then
   i=$first
 fi
-if [ "last" != -1 ]; then
+echo "last vor neuetzung: $last, recentIssue vor neusetzung $recentIssue"
+if [ "$last" != -1 ]; then
   recentIssue=$last
+else
+  last=$recentIssue
 fi
 
+echo "last nach neuetzung: $last, recentIssue nach neusetzung $recentIssue"
+
+echo "i : $i last $last"
 	while [ "$i" -le "$last" ]
 	do
-    # shellcheck disable=SC2059
     printf -v page_url $downloadUrl "$i"
 
     # c-link download is only for helloworld mag
