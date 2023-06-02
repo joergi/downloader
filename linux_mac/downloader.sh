@@ -24,19 +24,19 @@ IFS=$'\n\t'
 # for special issues, at the moment the last line must be an empty line, else the last one is ignored
 
 
-if [[ -z $1 ]]; then
+if [[ -z ${1-} ]]; then
     echo "download url can not be empty"
     exit 1
 fi
 
-if [[ -z $2 ]]; then
+if [[ -z ${2-} ]]; then
     echo "output url can not be empty"
     exit 1
 fi
 
 recentIssue=1
 
-if [[ ! -z $3 ]]; then
+if [ $# -ge 3 ] && [ -n "$3" ]; then
    recentIssue=$3
 fi
 
