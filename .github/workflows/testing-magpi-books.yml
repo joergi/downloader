@@ -36,7 +36,7 @@ jobs:
       - name: Download Books MagPi windows
         id: MagPiBooksWin
         shell: pwsh
-        run: ./windows/downloader.ps1 -downloadUrl "https://magpi.raspberrypi.com/books/projects-5/pdf" -outputDir "books"
+        run: ./windows/downloader.ps1 -downloadUrl "https://magpi.raspberrypi.com/books/projects-5/pdf/download" -outputDir "books"
 
       - name: "Check file existence Windows special"
         id: check_files
@@ -62,7 +62,7 @@ jobs:
 
       - name: Download books linux
         id: bookIssues
-        run: bash ./linux_mac/downloader.sh https://magpi.raspberrypi.com/books/projects-5/pdf books
+        run: bash ./linux_mac/downloader.sh https://magpi.raspberrypi.com/books/projects-5/pdf/download books
 
       - name: lslah
         run: ls -lah books/
@@ -88,7 +88,7 @@ jobs:
 
       - name: Download books macos
         id: bookIssuesMac
-        run: bash ./linux_mac/downloader.sh https://magpi.raspberrypi.com/books/projects-5/pdf books
+        run: bash ./linux_mac/downloader.sh https://magpi.raspberrypi.com/books/projects-5/pdf/download books
 
       - name: lslah
         run: ls -lah books/
