@@ -24,33 +24,56 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-#  books-powershell:
-#    runs-on: windows-latest
-#    steps:
-#      - uses: actions/checkout@v3.5.3
-#
-#      - name: make folder for books
-#        run: mkdir books
-#        shell: bash
-#
-#      - name: Download Books MagPi windows
-#        id: MagPiBooksWin
-#        shell: pwsh
-#        run: ./windows/downloader.ps1 -downloadUrl "https://magpi.raspberrypi.com/books/projects-5/pdf" -outputDir "books"
-#
-#      - name: "Check file existence Windows special"
-#        id: check_files
-#        uses: andstor/file-existence-action@v2.0.0
-#        with:
-#          files: "books/Pi-Projects5.pdf"
-#          fail: true
-#
-#      - name: lslah books
-#        run: Get-ChildItem –path D:\a\downloader\downloader\books
-#
-#      - name: File exists
-#        if: steps.check_files.outputs.files_exists == 'false'
-#        run: exit 1
+  books-powershell:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3.5.3
+
+      - name: curl remote file output
+        id: read_recent
+        run: |
+          echo "ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/MagPiDownloader/main/sources-for-download/regular-issues.txt)" >> $GITHUB_ENV
+        shell: bash
+
+      - run: |
+          echo "ISSUE_MINUS_ONE=$((${{ env.ISSUE_NUMBER }}-1))" >> $GITHUB_ENV
+        shell: bash
+
+      - name: print out vars
+        id: printOutVars
+        shell: bash
+        run: env
+
+      - name: make folder for regular
+        run: mkdir regular
+        shell: bash
+
+      - name: Download regular macos with first and last
+        id: regularIssuesFirstLast
+        run: ./windows/downloader.ps1 https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} -f 50 -l 52
+
+      - name: Download regular macos with end limit
+        id: regularIssuesLast
+        run: ./windows/downloader.ps1 https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} -l 2
+
+      - name: Download regular macos with start
+        id: regularIssuesFirst
+        run: ./windows/downloader.ps1 https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} -f ${{ env.ISSUE_MINUS_ONE }}
+
+      - name: lslah
+        run: ls -lah regular/
+        shell: bash
+
+      - name: "Check file existence macos regular"
+        id: check_files
+        uses: andstor/file-existence-action@v2.0.0
+        with:
+          files: "regular/MagPi_1.pdf, regular/MagPi_2.pdf, regular/MagPi_50.pdf, regular/MagPi_51.pdf, regular/MagPi_52.pdf, regular/MagPi_${{ env.ISSUE_MINUS_ONE }}.pdf, regular/MagPi_${{ env.ISSUE_NUMBER }}.pdf"
+          fail: true
+
+      - name: File exists
+        if: steps.check_files.outputs.files_exists == 'false'
+        run: exit 1
 
   regular-bash-linux:
     runs-on: ubuntu-latest
@@ -68,7 +91,7 @@ jobs:
 
       - name: print out vars
         id: printOutVars
-        shell: pwsh
+        shell: bash
         run: env
 
       - name: make folder for regular
@@ -116,7 +139,7 @@ jobs:
 
       - name: print out vars
         id: printOutVars
-        shell: pwsh
+        shell: bash
         run: env
 
       - name: make folder for regular
