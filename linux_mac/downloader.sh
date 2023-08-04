@@ -18,47 +18,55 @@ IFS=$'\n\t'
 # $1 = download Url (mandatory)
 # $2 = outputDir (mandatory)
 # $3 = recent issue (not mandatory, because of the special editions)
-# $4 = -f first issue to download not mandatory
-# $5 = -l last issue to download not mandatory
+# $4 = name to save it - needed if $3 is set
+# $5 = -f or -l for saying next is first or last
+# $6 = first issue / last issue  to download not mandatory
+# $7 = -l for saying next is last
+# $8 = last issue to download not mandatory
 
 # for special issues, at the moment the last line must be an empty line, else the last one is ignored
 
+recentIssue=1
+isRegular=false
+newFileName=""
 
 if [[ -z ${1-} ]]; then
-    echo "download url can not be empty"
-    exit 1
+  echo "download url can not be empty"
+  exit 1
 fi
 
 if [[ -z ${2-} ]]; then
-    echo "output url can not be empty"
-    exit 1
+  echo "output url can not be empty"
+  exit 1
 fi
 
-recentIssue=1
-
 if [ $# -ge 3 ] && [ -n "$3" ]; then
-   recentIssue=$3
+  recentIssue=$3
+  isRegular=true
+fi
+
+if [ $# -ge 4 ] && [ -n "$4" ] && [ $isRegular == true ]; then
+  newFileName=$4
 fi
 
 first=-1
 last=-1
 
- if [ $# -ge 5 ] && [ -n "$4" ]; then
-  if [ "$4" == "-f" ]; then
-    first=$5
-  elif [ "$4" == "-l" ]; then
-    last=$5
-
+if [ $# -ge 6 ] && [ -n "$5" ]; then
+  if [ "$5" == "-f" ]; then
+    first=$6
+  elif [ "$5" == "-l" ]; then
+    last=$6
   fi
- fi
+fi
 
- if [ $# -ge 7 ] &&[ -n "$6" ]; then
-   if [ "$6" == "-l" ]; then
-     last=$7
-   else
+if [ $# -ge 8 ] && [ -n "$7" ]; then
+  if [ "$7" == "-l" ]; then
+    last=$8
+  else #  make else if and let it fail if not - -f
     last=$recentIssue
-   fi
- fi
+  fi
+fi
 
 downloadUrl=$1
 outputDir=$2
@@ -77,8 +85,7 @@ else
   last=$recentIssue
 fi
 
-while [ "$i" -le "$last" ]
-do
+while [ "$i" -le "$last" ]; do
   printf -v page_url $downloadUrl "$i"
 
   # c-link download is only for helloworld mag
@@ -86,12 +93,22 @@ do
 
   if [[ $pdf_url == "" ]]; then
     # Magpi, Wireframe + Hackspace
-     pdf_url=$(curl -sf "$page_url" | grep "\"c-link\"" | sed 's/^.*href=\"//' | sed 's/[>"].*//' | sed "s#^\(/.*\)#$siteUrl\1#")
+    pdf_url=$(curl -sf "$page_url" | grep "\"c-link\"" | sed 's/^.*href=\"//' | sed 's/[>"].*//' | sed "s#^\(/.*\)#$siteUrl\1#")
 
   fi
 
-  wget -N "$pdf_url" -P "$outputDir"
-  i=$(( i+1 ))
+  if [[ "$isRegular" == true ]]; then
+    # REGULAR ISSUES
+    newFilenameWithPath="$outputDir"/"$newFileName""$i".pdf
+    if [ ! -e "$newFilenameWithPath" ]; then
+      wget -O "$newFilenameWithPath" "$pdf_url"
+    fi
+  else
+    # BOOKS / special issues
+      wget -N "$pdf_url" -P "$outputDir"
+  fi
+
+  i=$((i + 1))
 done
 
 exit 0
