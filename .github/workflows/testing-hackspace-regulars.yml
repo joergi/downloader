@@ -27,7 +27,7 @@ jobs:
 #  books-powershell:
 #    runs-on: windows-latest
 #    steps:
-#      - uses: actions/checkout@v3.5.3
+#      - uses: actions/checkout@v4.1.0
 #
 #      - name: make folder for books
 #        run: mkdir books
@@ -56,7 +56,7 @@ jobs:
   regular-bash-linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v4.1.0
 
       - name: curl remote file output
         id: read_recent
@@ -104,7 +104,7 @@ jobs:
   regular-bash-macos:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v4.1.0
 
       - name: curl remote file output
         id: read_recent
