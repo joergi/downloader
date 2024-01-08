@@ -48,15 +48,15 @@ jobs:
         run: mkdir regular
         shell: bash
 
-      - name: Download regular macos with first and last
+      - name: Download regular windows with first and last
         id: regularIssuesFirstLast
         run: ./windows/downloader.ps1 https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} -f 50 -l 52
 
-      - name: Download regular macos with end limit
+      - name: Download regular windows with end limit
         id: regularIssuesLast
         run: ./windows/downloader.ps1 https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} -l 2
 
-      - name: Download regular macos with start
+      - name: Download regular windows with start
         id: regularIssuesFirst
         run: ./windows/downloader.ps1 https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} -f ${{ env.ISSUE_MINUS_ONE }}
 
@@ -64,7 +64,7 @@ jobs:
         run: ls -lah regular/
         shell: bash
 
-      - name: "Check file existence macos regular"
+      - name: "Check file existence windows regular"
         id: check_files
         uses: andstor/file-existence-action@v2.0.0
         with:
