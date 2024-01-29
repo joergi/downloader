@@ -43,7 +43,7 @@ jobs:
 #
 #      - name: "Check file existence Windows special"
 #        id: check_files
-#        uses: andstor/file-existence-action@v2.0.0
+#        uses: andstor/file-existence-action@v3.0.0
 #        with:
 #          files: "books/MediaPlayer.pdf"
 #          fail: true
@@ -92,7 +92,7 @@ jobs:
 
       - name: "Check file existence Linux special issues"
         id: check_files
-        uses: andstor/file-existence-action@v2.0.0
+        uses: andstor/file-existence-action@v3.0.0
         with:
           files: "regular/HS_1.pdf, regular/HS_2.pdf, regular/HS_50.pdf, regular/HS_51.pdf, regular/HS_52.pdf, regular/HS_${{ env.ISSUE_MINUS_ONE }}.pdf, regular/HS_${{ env.ISSUE_NUMBER }}.pdf"
           fail: true
@@ -140,7 +140,7 @@ jobs:
 
       - name: "Check file existence macos regular"
         id: check_files
-        uses: andstor/file-existence-action@v2.0.0
+        uses: andstor/file-existence-action@v3.0.0
         with:
           files: "regular/HS_1.pdf, regular/HS_2.pdf, regular/HS_50.pdf, regular/HS_51.pdf, regular/HS_52.pdf, regular/HS_${{ env.ISSUE_MINUS_ONE }}.pdf, regular/HS_${{ env.ISSUE_NUMBER }}.pdf"
           fail: true
