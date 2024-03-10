@@ -27,7 +27,7 @@ jobs:
 #  books-powershell:
 #    runs-on: windows-latest
 #    steps:
-#      - uses: actions/checkout@v3.5.3
+#      - uses: actions/checkout@v4.1.1
 #
 #      - name: make folder for books
 #        run: mkdir books
@@ -43,7 +43,7 @@ jobs:
 #
 #      - name: "Check file existence Windows special"
 #        id: check_files
-#        uses: andstor/file-existence-action@v2.0.0
+#        uses: andstor/file-existence-action@v3.0.0
 #        with:
 #          files: "books/Hello_World_The_Big_Book_of_Pedagogy.pdf"
 #          fail: true
@@ -56,7 +56,7 @@ jobs:
   regular-bash-linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v4.1.1
 
       - name: curl remote file output
         id: read_recent
@@ -92,7 +92,7 @@ jobs:
 
       - name: "Check file existence Linux special issues"
         id: check_files
-        uses: andstor/file-existence-action@v2.0.0
+        uses: andstor/file-existence-action@v3.0.0
         with:
           files: "regular/HelloWorld_1.pdf, regular/HelloWorld_2.pdf, regular/HelloWorld_4.pdf, regular/HelloWorld_5.pdf,  regular/HelloWorld_${{ env.ISSUE_MINUS_ONE }}.pdf, regular/HelloWorld_${{ env.ISSUE_NUMBER }}.pdf"
           fail: true
@@ -104,7 +104,7 @@ jobs:
   regular-bash-macos:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v4.1.1
 
       - name: curl remote file output
         id: read_recent
@@ -140,7 +140,7 @@ jobs:
 
       - name: "Check file existence macos regular"
         id: check_files
-        uses: andstor/file-existence-action@v2.0.0
+        uses: andstor/file-existence-action@v3.0.0
         with:
           files: "regular/HelloWorld_1.pdf, regular/HelloWorld_2.pdf, regular/HelloWorld_4.pdf, regular/HelloWorld_5.pdf,  regular/HelloWorld_${{ env.ISSUE_MINUS_ONE }}.pdf, regular/HelloWorld_${{ env.ISSUE_NUMBER }}.pdf"
           fail: true

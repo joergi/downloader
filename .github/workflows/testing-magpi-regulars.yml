@@ -8,9 +8,6 @@
 # HackSpace Magazine
 #   Hackspace Magazine regular issues
 #   Hackspace Magazine books (Mac/Linux/Win)
-# Wireframe
-#   Wireframe regular issues (Mac/Linux)
-#   Wireframe books (Mac/Linux/Win)
 
 
 name: Testing MagPi Regular
@@ -66,19 +63,41 @@ jobs:
 
       - name: "Check file existence windows regular"
         id: check_files
-        uses: andstor/file-existence-action@v2.0.0
+        uses: andstor/file-existence-action@v3.0.0
         with:
           files: "regular/MagPi_1.pdf, regular/MagPi_2.pdf, regular/MagPi_50.pdf, regular/MagPi_51.pdf, regular/MagPi_52.pdf, regular/MagPi_${{ env.ISSUE_MINUS_ONE }}.pdf, regular/MagPi_${{ env.ISSUE_NUMBER }}.pdf"
+
+      - uses: actions/checkout@v4.1.1
+
+      - name: make folder for books
+        run: mkdir books
+        shell: bash
+
+      - name: Download Books MagPi windows
+        id: MagPiBooksWin
+        shell: pwsh
+        run: ./windows/downloader.ps1 -downloadUrl "https://magpi.raspberrypi.com/books/projects-5/pdf/download" -outputDir "books"
+    
+      - name: lslah books
+        run: Get-ChildItem –path D:\a\downloader\downloader\books
+      
+      - name: "Check file existence Windows special"
+        id: check_files
+        uses: andstor/file-existence-action@v3.0.0
+        with:
+          files: "books/Pi-Projects5.pdf"
+
           fail: true
 
       - name: File exists
         if: steps.check_files.outputs.files_exists == 'false'
         run: exit 1
 
+
   regular-bash-linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v4.1.1
 
       - name: curl remote file output
         id: read_recent
@@ -114,7 +133,7 @@ jobs:
 
       - name: "Check file existence Linux special issues"
         id: check_files
-        uses: andstor/file-existence-action@v2.0.0
+        uses: andstor/file-existence-action@v3.0.0
         with:
           files: "regular/MagPi_1.pdf, regular/MagPi_2.pdf, regular/MagPi_50.pdf, regular/MagPi_51.pdf, regular/MagPi_52.pdf, regular/MagPi_${{ env.ISSUE_MINUS_ONE }}.pdf, regular/MagPi_${{ env.ISSUE_NUMBER }}.pdf"
           fail: true
@@ -126,7 +145,7 @@ jobs:
   regular-bash-macos:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v4.1.1
 
       - name: curl remote file output
         id: read_recent
@@ -162,7 +181,7 @@ jobs:
 
       - name: "Check file existence macos regular"
         id: check_files
-        uses: andstor/file-existence-action@v2.0.0
+        uses: andstor/file-existence-action@v3.0.0
         with:
           files: "regular/MagPi_1.pdf, regular/MagPi_2.pdf, regular/MagPi_50.pdf, regular/MagPi_51.pdf, regular/MagPi_52.pdf, regular/MagPi_${{ env.ISSUE_MINUS_ONE }}.pdf, regular/MagPi_${{ env.ISSUE_NUMBER }}.pdf"
           fail: true
