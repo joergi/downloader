@@ -33,7 +33,7 @@ jobs:
       - name: Download Books MagPi windows
         id: MagPiBooksWin
         shell: pwsh
-        run: ./windows/downloader.ps1 -downloadUrl "https://magpi.raspberrypi.com/books/projects-5/pdf" -outputDir "books"
+        run: ./windows/downloader.ps1 -downloadUrl "https://magpi.raspberrypi.com/books/projects-5/pdf/download" -outputDir "books"
     
       - name: lslah books
         run: Get-ChildItem –path D:\a\downloader\downloader\books
