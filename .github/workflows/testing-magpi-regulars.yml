@@ -8,9 +8,6 @@
 # HackSpace Magazine
 #   Hackspace Magazine regular issues
 #   Hackspace Magazine books (Mac/Linux/Win)
-# Wireframe
-#   Wireframe regular issues (Mac/Linux)
-#   Wireframe books (Mac/Linux/Win)
 
 
 name: Testing MagPi Regular
@@ -24,33 +21,34 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-#  books-powershell:
-#    runs-on: windows-latest
-#    steps:
-#      - uses: actions/checkout@v4.1.1
-#
-#      - name: make folder for books
-#        run: mkdir books
-#        shell: bash
-#
-#      - name: Download Books MagPi windows
-#        id: MagPiBooksWin
-#        shell: pwsh
-#        run: ./windows/downloader.ps1 -downloadUrl "https://magpi.raspberrypi.com/books/projects-5/pdf" -outputDir "books"
-#
-#      - name: "Check file existence Windows special"
-#        id: check_files
-#        uses: andstor/file-existence-action@v2.0.0
-#        with:
-#          files: "books/Pi-Projects5.pdf"
-#          fail: true
-#
-#      - name: lslah books
-#        run: Get-ChildItem –path D:\a\downloader\downloader\books
-#
-#      - name: File exists
-#        if: steps.check_files.outputs.files_exists == 'false'
-#        run: exit 1
+  books-powershell:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      - name: make folder for books
+        run: mkdir books
+        shell: bash
+
+      - name: Download Books MagPi windows
+        id: MagPiBooksWin
+        shell: pwsh
+        run: ./windows/downloader.ps1 -downloadUrl "https://magpi.raspberrypi.com/books/projects-5/pdf/download" -outputDir "books"
+    
+      - name: lslah books
+        run: Get-ChildItem –path D:\a\downloader\downloader\books
+      
+      - name: "Check file existence Windows special"
+        id: check_files
+        uses: andstor/file-existence-action@v2.0.0
+        with:
+          files: "books/Pi-Projects5.pdf"
+          fail: true
+
+      - name: File exists
+        if: steps.check_files.outputs.files_exists == 'false'
+        run: exit 1
+
 
   regular-bash-linux:
     runs-on: ubuntu-latest
@@ -68,7 +66,7 @@ jobs:
 
       - name: print out vars
         id: printOutVars
-        shell: pwsh
+        shell: bash
         run: env
 
       - name: make folder for regular
@@ -116,7 +114,7 @@ jobs:
 
       - name: print out vars
         id: printOutVars
-        shell: pwsh
+        shell: bash
         run: env
 
       - name: make folder for regular
