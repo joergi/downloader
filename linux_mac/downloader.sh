@@ -85,6 +85,17 @@ else
   last=$recentIssue
 fi
 
+regular_download() {
+  newFilenameWithPath="$outputDir/$newFileName$i.pdf"
+  if [ ! -e "$newFilenameWithPath" ]; then
+    wget -O "$newFilenameWithPath" "$pdf_url"
+  fi
+}
+
+special_download() {
+  wget -N "$pdf_url" -P "$outputDir"
+}
+
 while [ "$i" -le "$last" ]; do
   printf -v page_url $downloadUrl "$i"
 
@@ -98,14 +109,9 @@ while [ "$i" -le "$last" ]; do
   fi
 
   if [[ "$isRegular" == true ]]; then
-    # REGULAR ISSUES
-    newFilenameWithPath="$outputDir"/"$newFileName""$i".pdf
-    if [ ! -e "$newFilenameWithPath" ]; then
-      wget -O "$newFilenameWithPath" "$pdf_url"
-    fi
+    regular_download
   else
-    # BOOKS / special issues
-      wget -N "$pdf_url" -P "$outputDir"
+    special_download
   fi
 
   i=$((i + 1))
