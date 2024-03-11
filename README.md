@@ -21,6 +21,8 @@ All this issues are freely available. You can also buy this magazines as paper v
 ## Important:
 ### for special issues, at the moment the last line must be an empty line, else the last one is ignored
 
+## Testing
+You can click the tests in the [testing.md](testing.md), to see if the script works on Linux/Mac
 
 ---
 # This project was done by this lovely people, thank you!!!
