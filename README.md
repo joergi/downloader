@@ -1,4 +1,4 @@
-# downloader
+# Downloader
 
 Downloader for the following magazines:
 
