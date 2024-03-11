@@ -10,9 +10,9 @@ Downloader for the following magazines:
 ## THIS SCRIPT CAN NOT BE STARTED  ALONE!!
 It's a generic script, and it is/will be used for the downloader scripts:
 
-The MagPi magazine: https://github.com/joergi/MagPiDownloader -> Please consider [buying the MagPi here](https://magpi.raspberrypi.com/)      
-Hackspace magazine: https://github.com/joergi/HackspaceMagazineDownloader -> Please consider [buying the Hackspace Magazine here](https://hackspace.raspberrypi.com/)
-Hello World Magazine: https://github.com/joergi/HelloWorldDownloader -> Please consider [buying the Hello World Magazine here](https://helloworld.cc)
+The MagPi magazine: https://github.com/joergi/MagPiDownloader -> Please consider [buying the MagPi here](https://magpi.raspberrypi.com/)    
+Hackspace magazine: https://github.com/joergi/HackspaceMagazineDownloader -> Please consider [buying the Hackspace Magazine here](https://hackspace.raspberrypi.com/)    
+Hello World Magazine: https://github.com/joergi/HelloWorldDownloader -> Please consider [buying the Hello World Magazine here](https://helloworld.cc)    
 
 ~~Wireframe magazine: https://github.com/joergi/WireframeDownloader~~ it seems that Wireframe is not anymore at the moment
 
