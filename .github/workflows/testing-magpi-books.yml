@@ -27,7 +27,7 @@ jobs:
   books-powershell:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v4.1.6
 
       - name: make folder for books
         run: mkdir books
@@ -55,7 +55,7 @@ jobs:
   books-bash-linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v4.1.6
 
       - name: make folder for books
         run: mkdir books
@@ -81,7 +81,7 @@ jobs:
   special-bash-macos:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v4.1.6
 
       - name: make folder for books
         run: mkdir books
