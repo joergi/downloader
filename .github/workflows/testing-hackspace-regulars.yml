@@ -24,10 +24,10 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-#  books-powershell:
+#  hackspace-books-powershell:
 #    runs-on: windows-latest
 #    steps:
-#      - uses: actions/checkout@v4.1.1
+#      - uses: actions/checkout@v4.1.7
 #
 #      - name: make folder for books
 #        run: mkdir books
@@ -53,10 +53,10 @@ jobs:
 #        run: exit 1
 
 
-  regular-bash-linux:
+  hackspace-regular-bash-linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.7
 
       - name: curl remote file output
         id: read_recent
@@ -101,10 +101,10 @@ jobs:
         if: steps.check_files.outputs.files_exists == 'false'
         run: exit 1
 
-  regular-bash-macos:
+  hackspace-regular-bash-macos:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.7
 
       - name: curl remote file output
         id: read_recent
