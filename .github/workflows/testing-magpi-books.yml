@@ -78,7 +78,7 @@ jobs:
         if: steps.check_files.outputs.files_exists == 'false'
         run: exit 1
 
-  magpi-special-bash-macos:
+  magpi-books-bash-macos:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4.1.7
