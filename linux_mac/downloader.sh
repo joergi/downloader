@@ -113,13 +113,14 @@ else
 fi
 
 set_helloworld_path() {
-  echo "inside hellworld path $pdf_url"
-  # echo "downloading a helloworld mag"
-  # real live code:
+#  echo "inside hellworld path " + $pdf_url
+   echo "downloading a helloworld mag"
+#   real live code:
   # <a data-event-action="click" data-event-category="Hello World" data-event-label="Download PDF - Issue 22" class="pk-c-detailed-hero__link rpf-button" href="https://downloads.ctfassets.net/oshmmv7kdjgm/1aZQzDy8H3lB6RmeaV5qeQ/db8c10ed2bbfcf5d869842758fa59d7f/HW22_DIGITAL_v2.pdf">Download free PDF</a>
   pdf_url=$(curl -sf "$page_url" | grep "Download free PDF" | sed 's/^.*href=\"//' | sed 's/[>"].*//'  | sed "s#^\(/.*\)#$siteUrl\1#")
 #  echo "after hellworld path $pdf_url"
 }
+
 set_magpi_hackspace_path() {
   # echo "downloading a magpi / hackspace mag"
   # Magpi + Hackspace

@@ -77,15 +77,15 @@ jobs:
 
       - name: Download regular linux with first and last
         id: regularIssuesFirstLast
-        run: bash ./linux_mac//downloader.sh https://helloworld.raspberrypi.org/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -f 4 -l 5
+        run: bash ./linux_mac//downloader.sh https://helloworld.raspberrypi.org/issues/%d/pdf regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -f 4 -l 5
 
       - name: Download regular linux with end limit
         id: regularIssuesLast
-        run: bash ./linux_mac//downloader.sh https://helloworld.raspberrypi.org/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -l 2
+        run: bash ./linux_mac//downloader.sh https://helloworld.raspberrypi.org/issues/%d/pdf regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -l 2
 
       - name: Download regular linux with start
         id: regularIssuesFirst
-        run: bash ./linux_mac//downloader.sh https://helloworld.raspberrypi.org/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -f ${{ env.ISSUE_MINUS_ONE }}
+        run: bash ./linux_mac//downloader.sh https://helloworld.raspberrypi.org/issues/%d/pdf regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -f ${{ env.ISSUE_MINUS_ONE }}
 
       - name: lslah
         run: ls -lah regular/
@@ -125,15 +125,15 @@ jobs:
 
       - name: Download regular macos with first and last
         id: regularIssuesFirstLast
-        run: bash ./linux_mac//downloader.sh https://helloworld.raspberrypi.org/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -f 4 -l 5
+        run: bash ./linux_mac//downloader.sh https://helloworld.raspberrypi.org/issues/%d/pdf regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -f 4 -l 5
 
       - name: Download regular macos with end limit
         id: regularIssuesLast
-        run: bash ./linux_mac//downloader.sh https://helloworld.raspberrypi.org/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -l 2
+        run: bash ./linux_mac//downloader.sh https://helloworld.raspberrypi.org/issues/%d/pdf regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -l 2
 
       - name: Download regular macos with start
         id: regularIssuesFirst
-        run: bash ./linux_mac//downloader.sh https://helloworld.raspberrypi.org/issues/%02d/pdf regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -f ${{ env.ISSUE_MINUS_ONE }}
+        run: bash ./linux_mac//downloader.sh https://helloworld.raspberrypi.org/issues/%d/pdf regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -f ${{ env.ISSUE_MINUS_ONE }}
 
       - name: lslah
         run: ls -lah regular/
