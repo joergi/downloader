@@ -29,6 +29,10 @@ IFS=$'\n\t'
 recentIssue=1
 isRegular=false
 newFileName=""
+isMagPi=false
+isHackSpace=false
+isHelloWorld=false
+pdf_url=""
 
 if [[ -z ${1-} ]]; then
   echo "download url can not be empty"
@@ -47,7 +51,30 @@ fi
 
 if [ $# -ge 4 ] && [ -n "$4" ] && [ $isRegular == true ]; then
   newFileName=$4
+  case $newFileName in
+      "MagPi_")
+          isMagPi=true
+#          echo "magpi set to true"
+          ;;
+      "HS_")
+          isHackSpace=true
+#          echo "HS set to true"
+          ;;
+      "HelloWorld_")
+          isHelloWorld=true
+#          echo "HW set to true"
+          ;;
+      *)
+          echo "Invalid file name."
+          echo 1
+          ;;
+  esac
 fi
+
+# uncomment for debuggig
+#echo "isMagPi: $isMagPi"
+#echo "isHackSpace: $isHackSpace"
+#echo "isHelloWorld: $isHelloWorld"
 
 first=-1
 last=-1
@@ -85,7 +112,24 @@ else
   last=$recentIssue
 fi
 
+set_helloworld_path() {
+  echo "inside hellworld path $pdf_url"
+  # echo "downloading a helloworld mag"
+  # real live code:
+  # <a data-event-action="click" data-event-category="Hello World" data-event-label="Download PDF - Issue 22" class="pk-c-detailed-hero__link rpf-button" href="https://downloads.ctfassets.net/oshmmv7kdjgm/1aZQzDy8H3lB6RmeaV5qeQ/db8c10ed2bbfcf5d869842758fa59d7f/HW22_DIGITAL_v2.pdf">Download free PDF</a>
+  pdf_url=$(curl -sf "$page_url" | grep "Download free PDF" | sed 's/^.*href=\"//' | sed 's/[>"].*//'  | sed "s#^\(/.*\)#$siteUrl\1#")
+#  echo "after hellworld path $pdf_url"
+}
+set_magpi_hackspace_path() {
+  # echo "downloading a magpi / hackspace mag"
+  # Magpi + Hackspace
+  pdf_url=$(curl -sf "$page_url" | grep "\"c-link\"" | sed 's/^.*href=\"//' | sed 's/[>"].*//' | sed "s#^\(/.*\)#$siteUrl\1#")
+#  echo "after set_magpi_hackspace  path $pdf_url"
+}
+
 regular_download() {
+#  echo "outputDir: $outputDir"
+#  echo "$newFileName: $newFileName$i.pdf"
   newFilenameWithPath="$outputDir/$newFileName$i.pdf"
   if [ ! -e "$newFilenameWithPath" ]; then
     wget -O "$newFilenameWithPath" "$pdf_url"
@@ -99,13 +143,12 @@ special_download() {
 while [ "$i" -le "$last" ]; do
   printf -v page_url $downloadUrl "$i"
 
-  # c-link download is only for helloworld mag
-  pdf_url=$(curl -sf "$page_url" | grep "\"c-link\" download=" | sed 's/^.*href=\"//' | sed 's/\?.*//' | sed "s#^\(/.*\)#$siteUrl\1#")
+  if [[ $isHelloWorld  == true ]]; then
+    set_helloworld_path
+  fi
 
-  if [[ $pdf_url == "" ]]; then
-    # Magpi, Wireframe + Hackspace
-    pdf_url=$(curl -sf "$page_url" | grep "\"c-link\"" | sed 's/^.*href=\"//' | sed 's/[>"].*//' | sed "s#^\(/.*\)#$siteUrl\1#")
-
+  if [ "$pdf_url" == "" ] && [ "$isHelloWorld" == false ]; then
+    set_magpi_hackspace_path
   fi
 
   if [[ "$isRegular" == true ]]; then
