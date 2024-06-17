@@ -54,15 +54,12 @@ if [ $# -ge 4 ] && [ -n "$4" ] && [ $isRegular == true ]; then
   case $newFileName in
       "MagPi_")
           isMagPi=true
-#          echo "magpi set to true"
           ;;
       "HS_")
           isHackSpace=true
-#          echo "HS set to true"
           ;;
       "HelloWorld_")
           isHelloWorld=true
-#          echo "HW set to true"
           ;;
       *)
           echo "Invalid file name."
@@ -70,11 +67,6 @@ if [ $# -ge 4 ] && [ -n "$4" ] && [ $isRegular == true ]; then
           ;;
   esac
 fi
-
-# uncomment for debuggig
-#echo "isMagPi: $isMagPi"
-#echo "isHackSpace: $isHackSpace"
-#echo "isHelloWorld: $isHelloWorld"
 
 first=-1
 last=-1
@@ -99,6 +91,7 @@ downloadUrl=$1
 outputDir=$2
 
 siteUrl="$(echo "$downloadUrl" | sed 's/\(https:\/\/[^\/]*\)\/.*$/\1/')"
+echo $siteUrl
 
 i=1
 
@@ -113,24 +106,14 @@ else
 fi
 
 set_helloworld_path() {
-#  echo "inside hellworld path " + $pdf_url
-   echo "downloading a helloworld mag"
-#   real live code:
-  # <a data-event-action="click" data-event-category="Hello World" data-event-label="Download PDF - Issue 22" class="pk-c-detailed-hero__link rpf-button" href="https://downloads.ctfassets.net/oshmmv7kdjgm/1aZQzDy8H3lB6RmeaV5qeQ/db8c10ed2bbfcf5d869842758fa59d7f/HW22_DIGITAL_v2.pdf">Download free PDF</a>
   pdf_url=$(curl -sf "$page_url" | grep "Download free PDF" | sed 's/^.*href=\"//' | sed 's/[>"].*//'  | sed "s#^\(/.*\)#$siteUrl\1#")
-#  echo "after hellworld path $pdf_url"
 }
 
 set_magpi_hackspace_path() {
-  # echo "downloading a magpi / hackspace mag"
-  # Magpi + Hackspace
   pdf_url=$(curl -sf "$page_url" | grep "\"c-link\"" | sed 's/^.*href=\"//' | sed 's/[>"].*//' | sed "s#^\(/.*\)#$siteUrl\1#")
-#  echo "after set_magpi_hackspace  path $pdf_url"
 }
 
 regular_download() {
-#  echo "outputDir: $outputDir"
-#  echo "$newFileName: $newFileName$i.pdf"
   newFilenameWithPath="$outputDir/$newFileName$i.pdf"
   if [ ! -e "$newFilenameWithPath" ]; then
     wget -O "$newFilenameWithPath" "$pdf_url"
@@ -138,6 +121,10 @@ regular_download() {
 }
 
 special_download() {
+  # only needed for Hello World books
+  if [[ $downloadUrl == "https://www.raspberrypi.org/hello-world/"* ]]; then
+    set_helloworld_path
+  fi
   wget -N "$pdf_url" -P "$outputDir"
 }
 
