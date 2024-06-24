@@ -36,7 +36,7 @@ jobs:
       - name: Download Books Hello World windows
         id: HelloWorldBooksWin
         shell: pwsh
-        run: ./windows/downloader.ps1 -downloadUrl "https://helloworld.raspberrypi.org/books/big_book_of_pedagogy/pdf" -outputDir "books"
+        run: ./windows/downloader.ps1 -downloadUrl "https://www.raspberrypi.org/hello-world/issues/the-big-book-of-computing-pedagogy" -outputDir "books"
 
       - name: lslah books
         run: Get-ChildItem –path D:\a\downloader\downloader\books
