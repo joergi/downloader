@@ -24,7 +24,7 @@ jobs:
   magpi-books-powershell:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
       - name: make folder for books
         run: mkdir books
@@ -40,7 +40,7 @@ jobs:
       
       - name: "Check file existence Windows special"
         id: check_files
-        uses: andstor/file-existence-action@v3.0.0
+        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
         with:
           files: "books/Pi-Projects5.pdf"
           fail: true
@@ -53,7 +53,7 @@ jobs:
   magpi-regular-bash-linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
       - name: curl remote file output
         id: read_recent
@@ -89,7 +89,7 @@ jobs:
 
       - name: "Check file existence Linux special issues"
         id: check_files
-        uses: andstor/file-existence-action@v3.0.0
+        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
         with:
           files: "regular/MagPi_1.pdf, regular/MagPi_2.pdf, regular/MagPi_50.pdf, regular/MagPi_51.pdf, regular/MagPi_52.pdf, regular/MagPi_${{ env.ISSUE_MINUS_ONE }}.pdf, regular/MagPi_${{ env.ISSUE_NUMBER }}.pdf"
           fail: true
@@ -101,7 +101,7 @@ jobs:
   magpi-regular-bash-macos:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
       - name: curl remote file output
         id: read_recent
@@ -137,7 +137,7 @@ jobs:
 
       - name: "Check file existence macos regular"
         id: check_files
-        uses: andstor/file-existence-action@v3.0.0
+        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
         with:
           files: "regular/MagPi_1.pdf, regular/MagPi_2.pdf, regular/MagPi_50.pdf, regular/MagPi_51.pdf, regular/MagPi_52.pdf, regular/MagPi_${{ env.ISSUE_MINUS_ONE }}.pdf, regular/MagPi_${{ env.ISSUE_NUMBER }}.pdf"
           fail: true

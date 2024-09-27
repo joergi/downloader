@@ -56,7 +56,7 @@ jobs:
   hackspace-regular-bash-linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
       - name: curl remote file output
         id: read_recent
@@ -92,7 +92,7 @@ jobs:
 
       - name: "Check file existence Linux special issues"
         id: check_files
-        uses: andstor/file-existence-action@v3.0.0
+        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
         with:
           files: "regular/HS_1.pdf, regular/HS_2.pdf, regular/HS_50.pdf, regular/HS_51.pdf, regular/HS_52.pdf, regular/HS_${{ env.ISSUE_MINUS_ONE }}.pdf, regular/HS_${{ env.ISSUE_NUMBER }}.pdf"
           fail: true
@@ -104,7 +104,7 @@ jobs:
   hackspace-regular-bash-macos:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
       - name: curl remote file output
         id: read_recent
@@ -140,7 +140,7 @@ jobs:
 
       - name: "Check file existence macos regular"
         id: check_files
-        uses: andstor/file-existence-action@v3.0.0
+        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
         with:
           files: "regular/HS_1.pdf, regular/HS_2.pdf, regular/HS_50.pdf, regular/HS_51.pdf, regular/HS_52.pdf, regular/HS_${{ env.ISSUE_MINUS_ONE }}.pdf, regular/HS_${{ env.ISSUE_NUMBER }}.pdf"
           fail: true
