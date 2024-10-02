@@ -32,7 +32,7 @@ jobs:
       fail-fast: false # Allows to see results from other combinations
     runs-on: ${{ matrix.os }}-latest
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
 
       - name: Set OS-specific variables for Windows
         if: matrix.os == 'windows'
@@ -48,38 +48,28 @@ jobs:
           echo "OS_FILE_EXTENSION=sh" >> $GITHUB_ENV
         shell: bash
 
-      - name: curl remote file output
-        id: read_recent
-        run: |
-          echo "ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/HelloWorldDownloader/main/regular-issues.txt)" >> $GITHUB_ENV
-
-      - run: |
-          echo "ISSUE_MINUS_ONE=$((${{ env.ISSUE_NUMBER }}-1))" >> $GITHUB_ENV
-        shell: bash
       - name: print out vars
         id: printOutVars
-        shell: bash
+        shell: pwsh
         run: env
 
       - name: make folder for regular
         run: mkdir regular
-        shell: bash
 
       - name: Download regular linux with first and last
         id: regularIssuesFirstLast
-        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://www.raspberrypi.org/hello-world/issues/%d/ regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -f 4 -l 5
+        run: bash ./linux_mac//downloader.sh https://www.raspberrypi.org/hello-world/issues/%d/ regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -f 4 -l 5
 
       - name: Download regular linux with end limit
         id: regularIssuesLast
-        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://www.raspberrypi.org/hello-world/issues/%d/ regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -l 2
+        run: bash ./linux_mac//downloader.sh https://www.raspberrypi.org/hello-world/issues/%d/ regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -l 2
 
       - name: Download regular linux with start
         id: regularIssuesFirst
-        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://www.raspberrypi.org/hello-world/issues/%d/ regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -f ${{ env.ISSUE_MINUS_ONE }}
+        run: bash ./linux_mac//downloader.sh https://www.raspberrypi.org/hello-world/issues/%d/ regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -f ${{ env.ISSUE_MINUS_ONE }}
 
       - name: lslah
         run: ls -lah regular/
-        shell: bash
 
       - name: "Check file existence Linux special issues"
         id: check_files

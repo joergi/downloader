@@ -31,7 +31,7 @@ jobs:
       fail-fast: false # Allows to see results from other combinations
     runs-on: ${{ matrix.os }}-latest
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
 
       - name: Set OS-specific variables for Windows
         if: matrix.os == 'windows'
@@ -47,25 +47,22 @@ jobs:
           echo "OS_FILE_EXTENSION=sh" >> $GITHUB_ENV
         shell: bash
 
-      - name: make folder for books
-        run: mkdir books
-        shell: bash
-
       - name: Download Books MagPi windows
         id: MagPiBooksWin
-        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} -downloadUrl "https://magpi.raspberrypi.com/books/projects-5/pdf/download" -outputDir "books"
+        shell: pwsh
+        run: ./windows/downloader.ps1 -downloadUrl "https://magpi.raspberrypi.com/books/projects-5/pdf/download" -outputDir "books"
 
-      - name: lslah
-        run: ls -lah books/
-        shell: bash
-
-      - name: "Check file existence special"
+      - name: "Check file existence Windows special"
         id: check_files
         uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
         with:
           files: "books/Pi-Projects5.pdf"
           fail: true
 
+      - name: lslah books
+        run: Get-ChildItem –path D:\a\downloader\downloader\books
+
       - name: File exists
         if: steps.check_files.outputs.files_exists == 'false'
         run: exit 1
+
