@@ -52,7 +52,7 @@ jobs:
 #        if: steps.check_files.outputs.files_exists == 'false'
 #        run: exit 1
 
-  hello-world-books-bash-linux:
+  hello-world-books:
     strategy:
       matrix:
         os: [ macos, ubuntu ]

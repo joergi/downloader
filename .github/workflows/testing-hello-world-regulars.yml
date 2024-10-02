@@ -24,7 +24,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  hello-world-regular-bash-linux:
+  hello-world-regular:
     strategy:
       matrix:
         os: [ macos, ubuntu ]
