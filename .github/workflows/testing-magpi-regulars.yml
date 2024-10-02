@@ -22,9 +22,27 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   magpi-regular:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ macos, ubuntu, windows ]
+      fail-fast: false # Allows to see results from other combinations
+    runs-on: ${{ matrix.os }}-latest
     steps:
       - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+
+      - name: Set OS-specific variables for Windows
+        if: matrix.os == 'windows'
+        run: |
+          echo "OS_PATH=windows" >> $GITHUB_ENV
+          echo "OS_FILE_EXTENSION=ps1" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Set OS-specific variables for macOS and Ubuntu
+        if: matrix.os != 'windows'
+        run: |
+          echo "OS_PATH=linux_mac" >> $GITHUB_ENV
+          echo "OS_FILE_EXTENSION=sh" >> $GITHUB_ENV
+        shell: bash
 
       - name: curl remote file output issue number
         id: read_recent
@@ -50,15 +68,15 @@ jobs:
 
       - name: Download regular linux with first and last
         id: regularIssuesFirstLast
-        run: ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -f 50 -l 52
+        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -f 50 -l 52
 
       - name: Download regular linux with end limit
         id: regularIssuesLast
-        run: ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -l 2
+        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -l 2
 
       - name: Download regular linux with start
         id: regularIssuesFirst
-        run: ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -f ${{ env.ISSUE_MINUS_ONE }}
+        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -f ${{ env.ISSUE_MINUS_ONE }}
 
       - name: lslah
         run: ls -lah regular/
