@@ -51,15 +51,16 @@ jobs:
         id: MagPiBooksWin
         run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} -downloadUrl "https://magpi.raspberrypi.com/books/projects-5/pdf/download" -outputDir "books"
 
+      - name: lslah books
+        run: ls -lah
+        shell: bash
+
       - name: "Check file existence Windows special"
         id: check_files
         uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
         with:
           files: "books/Pi-Projects5.pdf"
           fail: true
-
-      - name: lslah books
-        run: Get-ChildItem –path D:\a\downloader\downloader\books
 
       - name: File exists
         if: steps.check_files.outputs.files_exists == 'false'
