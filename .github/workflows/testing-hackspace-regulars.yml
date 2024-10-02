@@ -89,15 +89,15 @@ jobs:
 
       - name: Download regular linux with first and last
         id: regularIssuesFirstLast
-        run: ./${{ env.OS_PATH }}//downloader.${{ env.OS_FILE_EXTENSION }} https://hackspace.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} HS_ -f 50 -l 52
+        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://hackspace.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} HS_ -f 50 -l 52
 
       - name: Download regular linux with end limit
         id: regularIssuesLast
-        run: ./${{ env.OS_PATH }}//downloader.${{ env.OS_FILE_EXTENSION }} https://hackspace.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} HS_ -l 2
+        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://hackspace.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} HS_ -l 2
 
       - name: Download regular linux with start
         id: regularIssuesFirst
-        run: ./${{ env.OS_PATH }}//downloader.${{ env.OS_FILE_EXTENSION }} https://hackspace.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} HS_ -f ${{ env.ISSUE_MINUS_ONE }}
+        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://hackspace.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} HS_ -f ${{ env.ISSUE_MINUS_ONE }}
 
       - name: "Check file existence Linux special issues"
         id: check_files
