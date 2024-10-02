@@ -53,47 +53,48 @@ jobs:
 #        run: exit 1
 
   hello-world-books-bash-linux:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ macos, ubuntu ]
+#        os: [ macos, ubuntu, windows ]
+      fail-fast: false # Allows to see results from other combinations
+    runs-on: ${{ matrix.os }}-latest
     steps:
       - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+      - name: Set OS-specific variables for Windows
+        if: matrix.os == 'windows'
+        run: |
+          echo "OS_PATH=windows" >> $GITHUB_ENV
+          echo "OS_FILE_EXTENSION=ps1" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Set OS-specific variables for macOS and Ubuntu
+        if: matrix.os != 'windows'
+        run: |
+          echo "OS_PATH=linux_mac" >> $GITHUB_ENV
+          echo "OS_FILE_EXTENSION=sh" >> $GITHUB_ENV
+        shell: bash
+
+      - name: print out vars
+        shell: bash
+        run: |
+          echo "OS_PATH" ${{ env.OS_PATH }}
+          echo "OS_FILE_EXTENSION" ${{ env.OS_FILE_EXTENSION }}
+          echo "--------------------"
 
       - name: make folder for books
         run: mkdir books
+        shell: bash
 
-      - name: Download books linux
+      - name: Download books
         id: bookIssues
-        run: bash ./linux_mac/downloader.sh https://www.raspberrypi.org/hello-world/issues/the-big-book-of-computing-pedagogy books
+        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://www.raspberrypi.org/hello-world/issues/the-big-book-of-computing-pedagogy books
 
       - name: lslah
         run: ls -lah books/
+        shell: books
 
       - name: "Check file existence Linux special issues"
-        id: check_files
-        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
-        with:
-          files: "books/Hello_World_The_Big_Book_of_Pedagogy.pdf"
-          fail: true
-
-      - name: File exists
-        if: steps.check_files.outputs.files_exists == 'false'
-        run: exit 1
-
-  hello-world-books-bash-macos:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
-
-      - name: make folder for books
-        run: mkdir books
-
-      - name: Download books macos
-        id: bookIssuesMac
-        run: bash ./linux_mac/downloader.sh https://www.raspberrypi.org/hello-world/issues/the-big-book-of-computing-pedagogy books
-
-      - name: lslah
-        run: ls -lah books/
-
-      - name: "Check file existence mac special issues"
         id: check_files
         uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
         with:
