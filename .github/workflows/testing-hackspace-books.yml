@@ -24,22 +24,35 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  hackspace-books-powershell:
-    runs-on: windows-latest
+  hackspace-books:
+    strategy:
+      matrix:
+        os: [ macos, ubuntu, windows ]
+      fail-fast: false # Allows to see results from other combinations
+    runs-on: ${{ matrix.os }}-latest
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - name: Set OS-specific variables for Windows
+        if: matrix.os == 'windows'
+        run: |
+          echo "OS_PATH=windows" >> $GITHUB_ENV
+          echo "OS_FILE_EXTENSION=ps1" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Set OS-specific variables for macOS and Ubuntu
+        if: matrix.os != 'windows'
+        run: |
+          echo "OS_PATH=linux_mac" >> $GITHUB_ENV
+          echo "OS_FILE_EXTENSION=sh" >> $GITHUB_ENV
+        shell: bash
 
       - name: make folder for books
         run: mkdir books
         shell: bash
 
-      - name: Download Books Hackspace windows
+      - name: Download Books Hackspace
         id: HackspaceBooksWin
-        shell: pwsh
-        run: ./windows/downloader.ps1 -downloadUrl "https://hackspace.raspberrypi.com/books/meadiaplayer/pdf/download" -outputDir "books"
-
-      - name: lslah books
-        run: Get-ChildItem –path D:\a\downloader\downloader\books
+        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} -downloadUrl "https://hackspace.raspberrypi.com/books/meadiaplayer/pdf/download" -outputDir "books"
 
       - name: "Check file existence Windows special"
         id: check_files
@@ -52,54 +65,3 @@ jobs:
         if: steps.check_files.outputs.files_exists == 'false'
         run: exit 1
 
-  hackspace-special-bash-linux:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-
-      - name: make folder for books
-        run: mkdir books
-
-      - name: Download books linux
-        id: bookIssues
-        run: bash ./linux_mac/downloader.sh https://hackspace.raspberrypi.com/books/meadiaplayer/pdf/download books
-
-      - name: lslah
-        run: ls -lah books/
-
-      - name: "Check file existence Linux special issues"
-        id: check_files
-        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
-        with:
-          files: "books/MediaPlayer.pdf"
-          fail: true
-
-      - name: File exists
-        if: steps.check_files.outputs.files_exists == 'false'
-        run: exit 1
-
-  hackspace-special-bash-macos:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-
-      - name: make folder for books
-        run: mkdir books
-
-      - name: Download books macos
-        id: bookIssuesMac
-        run: bash ./linux_mac/downloader.sh https://hackspace.raspberrypi.com/books/meadiaplayer/pdf/download books
-
-      - name: lslah
-        run: ls -lah books/
-
-      - name: "Check file existence mac special issues"
-        id: check_files
-        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
-        with:
-          files: "books/MediaPlayer.pdf"
-          fail: true
-
-      - name: File exists
-        if: steps.check_files.outputs.files_exists == 'false'
-        run: exit 1

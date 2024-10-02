@@ -22,120 +22,61 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   magpi-books-powershell:
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        os: [ macos, ubuntu, windows ]
+      fail-fast: false # Allows to see results from other combinations
+    runs-on: ${{ matrix.os }}-latest
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
-      - name: make folder for books
-        run: mkdir books
+      - name: Set OS-specific variables for Windows
+        if: matrix.os == 'windows'
+        run: |
+          echo "OS_PATH=windows" >> $GITHUB_ENV
+          echo "OS_FILE_EXTENSION=ps1" >> $GITHUB_ENV
         shell: bash
 
-      - name: Download Books MagPi windows
-        id: MagPiBooksWin
-        shell: pwsh
-        run: ./windows/downloader.ps1 -downloadUrl "https://magpi.raspberrypi.com/books/projects-5/pdf/download" -outputDir "books"
-    
-      - name: lslah books
-        run: Get-ChildItem –path D:\a\downloader\downloader\books
-      
-      - name: "Check file existence Windows special"
-        id: check_files
-        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
-        with:
-          files: "books/Pi-Projects5.pdf"
-          fail: true
-
-      - name: File exists
-        if: steps.check_files.outputs.files_exists == 'false'
-        run: exit 1
-
-
-  magpi-regular-bash-linux:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - name: Set OS-specific variables for macOS and Ubuntu
+        if: matrix.os != 'windows'
+        run: |
+          echo "OS_PATH=linux_mac" >> $GITHUB_ENV
+          echo "OS_FILE_EXTENSION=sh" >> $GITHUB_ENV
+        shell: bash
 
       - name: curl remote file output
         id: read_recent
         run: |
           echo "ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/MagPiDownloader/main/sources-for-download/regular-issues.txt)" >> $GITHUB_ENV
-
-      - run: |
           echo "ISSUE_MINUS_ONE=$((${{ env.ISSUE_NUMBER }}-1))" >> $GITHUB_ENV
         shell: bash
 
       - name: print out vars
         id: printOutVars
-        shell: bash
         run: env
+        shell: bash
 
-      - name: make folder for regular
+      - name: make folder for regular issues
         run: mkdir regular
+        shell: bash
 
       - name: Download regular linux with first and last
         id: regularIssuesFirstLast
-        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -f 50 -l 52
+        run: ./${{ env.OS_PATH }}//downloader.${{ env.OS_FILE_EXTENSION }} https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -f 50 -l 52
 
       - name: Download regular linux with end limit
         id: regularIssuesLast
-        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -l 2
+        run: ./${{ env.OS_PATH }}//downloader.${{ env.OS_FILE_EXTENSION }} https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -l 2
 
       - name: Download regular linux with start
         id: regularIssuesFirst
-        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -f ${{ env.ISSUE_MINUS_ONE }}
+        run: ./${{ env.OS_PATH }}//downloader.${{ env.OS_FILE_EXTENSION }} https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -f ${{ env.ISSUE_MINUS_ONE }}
 
       - name: lslah
         run: ls -lah regular/
-
-      - name: "Check file existence Linux special issues"
-        id: check_files
-        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
-        with:
-          files: "regular/MagPi_1.pdf, regular/MagPi_2.pdf, regular/MagPi_50.pdf, regular/MagPi_51.pdf, regular/MagPi_52.pdf, regular/MagPi_${{ env.ISSUE_MINUS_ONE }}.pdf, regular/MagPi_${{ env.ISSUE_NUMBER }}.pdf"
-          fail: true
-
-      - name: File exists
-        if: steps.check_files.outputs.files_exists == 'false'
-        run: exit 1
-
-  magpi-regular-bash-macos:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-
-      - name: curl remote file output
-        id: read_recent
-        run: |
-          echo "ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/MagPiDownloader/main/sources-for-download/regular-issues.txt)" >> $GITHUB_ENV
-
-      - run: |
-          echo "ISSUE_MINUS_ONE=$((${{ env.ISSUE_NUMBER }}-1))" >> $GITHUB_ENV
         shell: bash
 
-      - name: print out vars
-        id: printOutVars
-        shell: bash
-        run: env
-
-      - name: make folder for regular
-        run: mkdir regular
-
-      - name: Download regular macos with first and last
-        id: regularIssuesFirstLast
-        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -f 50 -l 52
-
-      - name: Download regular macos with end limit
-        id: regularIssuesLast
-        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -l 2
-
-      - name: Download regular macos with start
-        id: regularIssuesFirst
-        run: bash ./linux_mac//downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -f ${{ env.ISSUE_MINUS_ONE }}
-
-      - name: lslah
-        run: ls -lah regular/
-
-      - name: "Check file existence macos regular"
+      - name: "Check file existence regular issues"
         id: check_files
         uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
         with:
