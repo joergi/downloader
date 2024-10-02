@@ -49,8 +49,7 @@ jobs:
 
       - name: Download Books MagPi windows
         id: MagPiBooksWin
-        shell: pwsh
-        run: ./windows/downloader.ps1 -downloadUrl "https://magpi.raspberrypi.com/books/projects-5/pdf/download" -outputDir "books"
+        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} -downloadUrl "https://magpi.raspberrypi.com/books/projects-5/pdf/download" -outputDir "books"
 
       - name: "Check file existence Windows special"
         id: check_files
