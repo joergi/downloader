@@ -24,35 +24,6 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-#  hello-world-books-powershell:
-#    runs-on: windows-latest
-#    steps:
-#      - uses: actions/checkout@v4.1.7
-#
-#      - name: make folder for books
-#        run: mkdir books
-#        shell: bash
-#
-#      - name: Download Books Hello World windows
-#        id: HelloWorldBooksWin
-#        shell: pwsh
-#        run: ./windows/downloader.ps1 -downloadUrl "https://www.raspberrypi.org/hello-world/books/big_book_of_pedagogy/pdf" -outputDir "books"
-#
-#      - name: lslah books
-#        run: Get-ChildItem –path D:\a\downloader\downloader\books
-#
-#      - name: "Check file existence Windows special"
-#        id: check_files
-#        uses: andstor/file-existence-action@v3.0.0
-#        with:
-#          files: "books/Hello_World_The_Big_Book_of_Pedagogy.pdf"
-#          fail: true
-#
-#      - name: File exists
-#        if: steps.check_files.outputs.files_exists == 'false'
-#        run: exit 1
-
-
   hello-world-regular-bash-linux:
     strategy:
       matrix:
@@ -81,9 +52,10 @@ jobs:
         id: read_recent
         run: |
           echo "ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/HelloWorldDownloader/main/regular-issues.txt)" >> $GITHUB_ENV
+
+      - run: |
           echo "ISSUE_MINUS_ONE=$((${{ env.ISSUE_NUMBER }}-1))" >> $GITHUB_ENV
         shell: bash
-
       - name: print out vars
         id: printOutVars
         shell: bash
