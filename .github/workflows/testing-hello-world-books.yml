@@ -64,7 +64,7 @@ jobs:
 
       - name: lslah
         run: ls -lah books/
-        shell: books
+        shell: bash
 
       - name: "Check file existence special issues"
         id: check_files
