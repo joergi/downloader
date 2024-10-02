@@ -48,28 +48,39 @@ jobs:
           echo "OS_FILE_EXTENSION=sh" >> $GITHUB_ENV
         shell: bash
 
+      - name: curl remote file output
+        id: read_recent
+        run: |
+          echo "ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/HelloWorldDownloader/main/regular-issues.txt)" >> $GITHUB_ENV
+
+      - run: |
+          echo "ISSUE_MINUS_ONE=$((${{ env.ISSUE_NUMBER }}-1))" >> $GITHUB_ENV
+        shell: bash
+
       - name: print out vars
         id: printOutVars
-        shell: pwsh
+        shell: bash
         run: env
 
       - name: make folder for regular
         run: mkdir regular
+        shell: bash
 
       - name: Download regular linux with first and last
         id: regularIssuesFirstLast
-        run: bash ./linux_mac//downloader.sh https://www.raspberrypi.org/hello-world/issues/%d/ regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -f 4 -l 5
+        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://www.raspberrypi.org/hello-world/issues/%d/ regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -f 4 -l 5
 
       - name: Download regular linux with end limit
         id: regularIssuesLast
-        run: bash ./linux_mac//downloader.sh https://www.raspberrypi.org/hello-world/issues/%d/ regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -l 2
+        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://www.raspberrypi.org/hello-world/issues/%d/ regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -l 2
 
       - name: Download regular linux with start
         id: regularIssuesFirst
-        run: bash ./linux_mac//downloader.sh https://www.raspberrypi.org/hello-world/issues/%d/ regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -f ${{ env.ISSUE_MINUS_ONE }}
+        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://www.raspberrypi.org/hello-world/issues/%d/ regular ${{ env.ISSUE_NUMBER }} HelloWorld_ -f ${{ env.ISSUE_MINUS_ONE }}
 
       - name: lslah
         run: ls -lah regular/
+        shell: bash
 
       - name: "Check file existence Linux special issues"
         id: check_files
