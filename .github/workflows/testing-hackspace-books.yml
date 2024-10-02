@@ -55,7 +55,7 @@ jobs:
         run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} -downloadUrl "https://hackspace.raspberrypi.com/books/meadiaplayer/pdf/download" -outputDir "books"
 
       - name: lslah
-        run: ls -lah regular/
+        run: ls -lah books/
         shell: bash
 
       - name: "Check file existence Windows special"
