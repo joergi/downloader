@@ -26,7 +26,6 @@ on:
 jobs:
 
   hello-world-regular:
-  magpi-regular:
     strategy:
       matrix:
         os: [ macos, ubuntu, windows ]
