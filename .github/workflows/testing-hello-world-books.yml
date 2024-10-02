@@ -24,8 +24,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-
-  hello-world-books-bash-linux:
+  hello-world-books:
     strategy:
       matrix:
         os: [ macos, ubuntu ]
@@ -67,7 +66,7 @@ jobs:
         run: ls -lah books/
         shell: books
 
-      - name: "Check file existence Linux special issues"
+      - name: "Check file existence special issues"
         id: check_files
         uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
         with:
