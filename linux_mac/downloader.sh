@@ -110,7 +110,23 @@ set_helloworld_path() {
 }
 
 set_magpi_hackspace_path() {
+  echo "beginning  magpi hackspace"
   pdf_url=$(curl -sf "$page_url" | grep "\"c-link\"" | sed 's/^.*href=\"//' | sed 's/[>"].*//' | sed "s#^\(/.*\)#$siteUrl\1#")
+  echo "pdf_url" $pdf_url
+
+  prefix="https://www.raspberrypi.com/news/a-farewell-from-hackspace-magazine/"
+
+  if [[ $pdf_url == $prefix* ]]; then
+    # Cut off the prefix
+    pdf_url="${pdf_url#$prefix}"
+    pdf_url=$(echo "$pdf_url" | xargs) # remove whitespace in the url
+    # echo "after cut" $pdf_url
+  else
+    # Return original string
+    pdf_url="$pdf_url"
+  fi
+  echo $pdf_url
+
 }
 
 regular_download() {
@@ -133,10 +149,12 @@ while [ "$i" -le "$last" ]; do
 
   if [[ $isHelloWorld  == true ]]; then
     set_helloworld_path
+#    echo "hello world path is set"
   fi
 
   if [ "$pdf_url" == "" ] && [ "$isHelloWorld" == false ]; then
     set_magpi_hackspace_path
+#    echo "magpi + hackspace path is set"
   fi
 
   if [[ "$isRegular" == true ]]; then
