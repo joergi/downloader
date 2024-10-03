@@ -27,7 +27,7 @@ jobs:
   hackspace-regular:
     strategy:
       matrix:
-        os: [ macos, ubuntu ]
+        os: [ windows ]
       fail-fast: false # Allows to see results from other combinations
     runs-on: ${{ matrix.os }}-latest
     steps:

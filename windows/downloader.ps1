@@ -11,11 +11,13 @@ $siteUrl = $downloadUrl -replace "(https://[^\/]+).*",'$1'
 
 for ($i = $firstIssue; $i -le $recentIssue; $i++) {
     $pageUrl = $downloadUrl -f $i
+    Write-Host "pageUrl is $pageUrl"
 
     # c-link download is only for helloworld mag
     $pdfUrl = Invoke-WebRequest -Uri $pageUrl -UseBasicParsing |
             Select-String -Pattern '\"c-link\" download=\"([^\"]+)\"' |
             ForEach-Object { $_.Matches.Groups[1].Value }
+
 
     if ([string]::IsNullOrEmpty($pdfUrl)) {
         # Magpi, Wireframe + Hackspace
@@ -29,6 +31,7 @@ for ($i = $firstIssue; $i -le $recentIssue; $i++) {
         continue
     }
 
+    Write-Host "PDF URL is $pdfUrl"
     $pdfUrl = $pdfUrl -replace '\?.*',''
     $pdfUrl = $pdfUrl -replace '^/', "$siteUrl/"
 
