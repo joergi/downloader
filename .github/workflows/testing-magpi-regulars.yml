@@ -68,15 +68,15 @@ jobs:
 
       - name: Download regular with first and last
         id: regularIssuesFirstLast
-        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -f 50 -l 52
+        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://magazine.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -f 50 -l 52
 
       - name: Download regular with end limit
         id: regularIssuesLast
-        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -l 2
+        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://magazine.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -l 2
 
       - name: Download regular with start
         id: regularIssuesFirst
-        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://magpi.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -f ${{ env.ISSUE_MINUS_ONE }}
+        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://magazine.raspberrypi.com/issues/%02d/pdf/download regular ${{ env.ISSUE_NUMBER }} MagPi_ -f ${{ env.ISSUE_MINUS_ONE }}
 
       - name: lslah
         run: ls -lah regular/
