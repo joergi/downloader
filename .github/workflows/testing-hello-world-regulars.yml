@@ -93,3 +93,13 @@ jobs:
       - name: File exists
         if: steps.check_files.outputs.files_exists == 'false'
         run: exit 1
+
+      - name: "check if files are all different"
+        id: md5_files
+        shell: bash
+        run: |
+          cmp --silent regular/HelloWorld_1.pdf regular/HelloWorld_2.pdf && { echo '### ERROR: Files Are Identical! ###'; exit 1; } || true 
+          cmp --silent regular/HelloWorld_2.pdf regular/HelloWorld_4.pdf && { echo '### ERROR: Files Are Identical! ###'; exit 1; } || true
+          cmp --silent regular/HelloWorld_4.pdf regular/HelloWorld_5.pdf && { echo '### ERROR: Files Are Identical! ###'; exit 1; } || true
+          cmp --silent regular/HelloWorld_5.pdf regular/HelloWorld_${{ env.ISSUE_MINUS_ONE }}.pdf && { echo '### ERROR: Files Are Identical! ###'; exit 1; } || true
+          cmp --silent regular/HelloWorld_${{ env.ISSUE_MINUS_ONE }}.pdf regular/HelloWorld_{{ env.ISSUE_NUMBER }}.pdf && { echo '### ERROR: Files Are Identical! ###'; exit 1; } || true
