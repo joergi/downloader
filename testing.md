@@ -9,7 +9,7 @@ Here are the scripts to test the downloader.sh locally:
 
 ### MagPi Books
 ```pwsh
-./windows/downloader.ps1 -downloadUrl "https://magpi.raspberrypi.com/books/projects-5/pdf/download" -outputDir "books"
+./windows/downloader.ps1 -downloadUrl "https://magazine.raspberrypi.com/books/projects-5/pdf/download" -outputDir "books"
 ``` 
 
 ### Hello World books
@@ -29,21 +29,21 @@ Here are the scripts to test the downloader.sh locally:
 #### -f 50 -l 52 
 ```bash
 echo "ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/MagPiDownloader/main/sources-for-download/regular-issues.txt)"
-./linux_mac/downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf/download regular 138 MagPi_ -f 50 -l 52
+./linux_mac/downloader.sh https://magazine.raspberrypi.com/issues/%02d/pdf/download regular 138 MagPi_ -f 50 -l 52
 ```
 ####  -l 2
 ```bash
 echo "ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/MagPiDownloader/main/sources-for-download/regular-issues.txt)"
-./linux_mac/downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf/download regular 138 MagPi_ -l 2
+./linux_mac/downloader.sh https://magazine.raspberrypi.com/issues/%02d/pdf/download regular 138 MagPi_ -l 2
 ```
 ####  -f from 2nd last
 ```bash
-./linux_mac/downloader.sh https://magpi.raspberrypi.com/issues/%02d/pdf/download regular 138 MagPi_ -f 137
+./linux_mac/downloader.sh https://magazine.raspberrypi.com/issues/%02d/pdf/download regular 138 MagPi_ -f 137
 ```
 
 ### MagPi Books
 ```bash
-./linux_mac/downloader.sh https://magpi.raspberrypi.com/books/projects-5/pdf/download books
+./linux_mac/downloader.sh https://magazine.raspberrypi.com/books/projects-5/pdf/download books
 ```
 
 ----

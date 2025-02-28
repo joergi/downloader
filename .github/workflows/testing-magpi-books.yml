@@ -53,7 +53,7 @@ jobs:
 
       - name: Download books linux
         id: bookIssues
-        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://magpi.raspberrypi.com/books/projects-5/pdf/download books
+        run: ./${{ env.OS_PATH }}/downloader.${{ env.OS_FILE_EXTENSION }} https://magazine.raspberrypi.com/books/projects-5/pdf/download books
 
       - name: lslah
         run: ls -lah books/
