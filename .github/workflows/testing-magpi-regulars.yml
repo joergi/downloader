@@ -47,7 +47,7 @@ jobs:
       - name: curl remote file output issue number
         id: read_recent
         run: |
-          echo "ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/MagPiDownloader/main/sources-for-download/regular-issues.txt)" >> $GITHUB_ENV
+          echo "ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/MagPiDownloader/refs/heads/main/sources-for-download/regular-issues.txt)" >> $GITHUB_ENV
         shell: bash
 
       - run: |
