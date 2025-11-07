@@ -28,6 +28,7 @@ Here are the scripts to test the downloader.sh locally:
 ### MagPi Regular
 #### -f 50 -l 52 
 ```bash
+rm -rf regular/*.pdf
 echo "ISSUE_NUMBER=$(curl https://raw.githubusercontent.com/joergi/MagPiDownloader/main/sources-for-download/regular-issues.txt)"
 ./linux_mac/downloader.sh https://magazine.raspberrypi.com/issues/%02d/pdf/download regular 138 MagPi_ -f 50 -l 52
 ```
