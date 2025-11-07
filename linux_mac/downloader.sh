@@ -111,8 +111,24 @@ set_helloworld_path() {
 
 set_magpi_hackspace_path() {
   echo "beginning  magpi hackspace"
+#  echo "page_url: $page_url"
   pdf_url=$(curl -sf "$page_url" | grep "\"c-link\"" | sed 's/^.*href=\"//' | sed 's/[>"].*//' | sed "s#^\(/.*\)#$siteUrl\1#")
-  echo "pdf_url" $pdf_url
+#  echo "pdf_url after extraction: '$pdf_url'"
+
+  # Check if pdf_url is empty or invalid
+  if [[ -z "$pdf_url" || "$pdf_url" == "http:" || "$pdf_url" == "https:" ]]; then
+    echo "ERROR: Failed to extract PDF URL from $page_url"
+    echo "Trying alternative extraction method..."
+    # Try alternative: look for PDF links directly
+    pdf_url=$(curl -sf "$page_url" | grep -oP 'href="[^"]*\.pdf"' | head -1 | sed 's/href="//' | sed 's/"//' | sed "s#^\(/.*\)#$siteUrl\1#")
+    echo "Alternative extraction result: '$pdf_url'"
+  fi
+
+  # Final validation
+  if [[ -z "$pdf_url" || "$pdf_url" == "http:" || "$pdf_url" == "https:" ]]; then
+    echo "ERROR: Could not find valid PDF URL for issue $i at $page_url"
+    exit 1
+  fi
 
   prefix="https://www.raspberrypi.com/news/a-farewell-from-hackspace-magazine/"
 
@@ -125,14 +141,25 @@ set_magpi_hackspace_path() {
     # Return original string
     pdf_url="$pdf_url"
   fi
-  echo $pdf_url
+#  echo "final pdf_url: $pdf_url"
 
 }
 
 regular_download() {
   newFilenameWithPath="$outputDir/$newFileName$i.pdf"
+#  echo "Checking for: $newFilenameWithPath"
+
+  # Validate pdf_url before downloading
+  if [[ -z "$pdf_url" || "$pdf_url" == "http:" || "$pdf_url" == "https:" ]]; then
+    echo "ERROR: Invalid PDF URL '$pdf_url' for issue $i"
+    exit 1
+  fi
+
   if [ ! -e "$newFilenameWithPath" ]; then
+    echo "Downloading from: $pdf_url"
     wget -O "$newFilenameWithPath" "$pdf_url"
+  else
+    echo "File already exists, skipping: $newFilenameWithPath"
   fi
 }
 
