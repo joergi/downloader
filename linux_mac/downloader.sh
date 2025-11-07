@@ -120,7 +120,7 @@ set_magpi_hackspace_path() {
     echo "ERROR: Failed to extract PDF URL from $page_url"
     echo "Trying alternative extraction method..."
     # Try alternative: look for PDF links directly
-    pdf_url=$(curl -sf "$page_url" | grep -oP 'href="[^"]*\.pdf"' | head -1 | sed 's/href="//' | sed 's/"//' | sed "s#^\(/.*\)#$siteUrl\1#")
+    pdf_url=$(curl -sf "$page_url" | grep -oE 'href="[^"]*\.pdf"' | head -1 | sed 's/href="//' | sed 's/"//' | sed "s#^\(/.*\)#$siteUrl\1#")
     echo "Alternative extraction result: '$pdf_url'"
   fi
 
