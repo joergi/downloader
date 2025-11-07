@@ -110,7 +110,7 @@ set_helloworld_path() {
 }
 
 set_magpi_hackspace_path() {
-  echo "beginning  magpi hackspace"
+#  echo "beginning  magpi hackspace"
 #  echo "page_url: $page_url"
   pdf_url=$(curl -sf "$page_url" | grep "\"c-link\"" | sed 's/^.*href=\"//' | sed 's/[>"].*//' | sed "s#^\(/.*\)#$siteUrl\1#")
 #  echo "pdf_url after extraction: '$pdf_url'"
